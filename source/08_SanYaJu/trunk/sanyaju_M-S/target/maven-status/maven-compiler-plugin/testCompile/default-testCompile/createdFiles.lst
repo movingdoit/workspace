@@ -1,0 +1,9 @@
+me\duomi\wz\functional\rest\UserRestFT.class
+me\duomi\wz\functional\rest\UserJaxRsFT.class
+me\duomi\wz\functional\rest\UserRestFT$HttpBasicInterceptor.class
+me\duomi\wz\functional\soap\AccountWebServiceWithDynamicCreateClientFT.class
+me\duomi\wz\functional\account\UserManagerFT.class
+me\duomi\wz\functional\ajax\AjaxFT.class
+me\duomi\wz\functional\BaseFunctionalTestCase.class
+me\duomi\wz\functional\soap\AccountWebServiceWithPredefineClientFT.class
+me\duomi\wz\functional\BaseSeleniumTestCase.class
