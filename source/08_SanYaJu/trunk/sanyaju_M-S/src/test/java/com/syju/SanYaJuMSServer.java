@@ -14,7 +14,7 @@ import org.springside.modules.test.spring.Profiles;
  * 
  * @author calvin
  */
-public class PluginsMSServer {
+public class SanYaJuMSServer {
 
 	public static final int PORT = 88;
 	public static final String CONTEXT = "/";
