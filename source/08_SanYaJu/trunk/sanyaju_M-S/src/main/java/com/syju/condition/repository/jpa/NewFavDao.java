@@ -5,10 +5,6 @@
  *******************************************************************************/
 package com.syju.condition.repository.jpa;
 
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,20 +14,8 @@ import com.syju.condition.entity.NewFav;
 
 public interface NewFavDao extends PagingAndSortingRepository<NewFav, Long>, JpaSpecificationExecutor<NewFav> {
 
-	Page<NewFav> findBySiteConfigId(Long id, Pageable pageRequest);
-
-	// 验证标题是否存在
-	NewFav findByNewFavTitle(String title);
-
 	// 验证排序号是否存在
-	List<NewFav> findByPriority(Long priority);
-
-	@Query("from NewFav nf where nf.bindValue=?1 and nf.bindPath=?2 ")
-	List<NewFav> findNewFavListByBindValue_BindPath(String bindValue, String bindPath);
-
-	@Modifying
-	@Query("delete from NewFav nf where nf.bindValue=?1 and nf.bindPath=?2 ")
-	int deleteNewFavByBindValue_BindPath(String bindValue, String bindPath);
+	NewFav findByPriority(Long priority);
 
 	// 批量修改 排序号 (插入排序号)
 	@Modifying
@@ -52,4 +36,30 @@ public interface NewFavDao extends PagingAndSortingRepository<NewFav, Long>, Jpa
 	@Modifying
 	@Query("update NewFav nf set nf.priority = nf.priority+1 where nf.priority < ?1 and nf.priority >= ?2")
 	int updateDESCPriority(Long oldPriority, Long newPriority);
+
+	// 根据ID查询出排序号，然后找出小于当前排序号的最大排序号（用来上移）
+	@Query("select MAX(priority) from NewFav where priority < (select priority from NewFav where id=?1)")
+	Long getMaxIndex(Long id);
+
+	// 根据ID查询出排序号，然后找出大于当前排序号的最小排序号（用来下移）
+	@Query("select MIN(priority) from NewFav where priority > (select priority from NewFav where id=?1)")
+	Long getMinIndex(Long id);
+
+	// 根据ID查询出排序号，然后找出小于当前排序号的最小排序号（用来置顶）
+	@Query("select MIN(priority) from NewFav where priority < (select priority from NewFav where id=?1)")
+	Long getTopIndex(Long id);
+
+	// 根据ID查询出排序号，然后找出大于当前排序号的最大排序号（用来置底）
+	@Query("select MAX(priority) from NewFav where priority > (select priority from NewFav where id=?1)")
+	Long getDownIndex(Long id);
+
+	// 批量修改 排序号 (置顶)
+	@Modifying
+	@Query("update NewFav nf set nf.priority = nf.priority+1 where nf.priority < ?1")
+	int updateTopPriority(Long priority);
+
+	// 批量修改 排序号 (置底)
+	@Modifying
+	@Query("update NewFav nf set nf.priority = nf.priority-1 where nf.priority > ?1")
+	int updateDownPriority(Long priority);
 }

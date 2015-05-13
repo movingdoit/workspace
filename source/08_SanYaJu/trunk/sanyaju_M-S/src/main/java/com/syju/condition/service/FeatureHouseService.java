@@ -5,7 +5,6 @@
  *******************************************************************************/
 package com.syju.condition.service;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -54,16 +53,60 @@ public class FeatureHouseService extends CommonService {
 		featureHouseDao.delete(id);
 	}
 
-	// 验证轮播图标题是否存在
-	public FeatureHouse checkTitle(String title) {
-		FeatureHouse featureHouse = featureHouseDao.findByFeatureHouseTitle(title);
+	// 验证排序号是否存在
+	public FeatureHouse checkPriority(Long priority) {
+		FeatureHouse featureHouse = featureHouseDao.findByPriority(priority);
 		return featureHouse;
 	}
 
-	// 验证排序号是否存在
-	public List<FeatureHouse> checkPriority(Long priority) {
-		List<FeatureHouse> featureHouseList = featureHouseDao.findByPriority(priority);
-		return featureHouseList;
+	/**
+	 * <p>
+	 * 上移，下移
+	 * </p>
+	 * 
+	 * @param id
+	 * @param type
+	 */
+	public void move(Long id, String type) {
+		FeatureHouse bean1 = featureHouseDao.findOne(id); // bean1表示当前的分类对象
+		if ((bean1 != null)) {
+			if (type.equals("up")) { // 上移
+				FeatureHouse bean2 = featureHouseDao.findByPriority(featureHouseDao.getMaxIndex(id));
+				if (bean2 != null) { // bean2表示要和上一个排序号或下一个排序号的分类对象
+					Long priority1 = bean1.getPriority();
+					Long priority2 = bean2.getPriority();
+					bean1.setPriority(priority2);
+					bean2.setPriority(priority1);
+				}
+			} else if (type.equals("top")) { // 置顶
+
+				Long priority = bean1.getPriority();
+
+				featureHouseDao.updateTopPriority(priority);// 批量修改 priority + 1
+				bean1.setPriority((long) 1);
+				featureHouseDao.save(bean1);
+
+			} else if (type.equals("down")) { // 置底
+				Long priority = bean1.getPriority();
+
+				featureHouseDao.updateDownPriority(priority);// 批量修改 priority + 1
+				Long downPriority = featureHouseDao.getDownIndex(id);
+
+				bean1.setPriority(downPriority + 1);
+				featureHouseDao.save(bean1);
+			}
+
+			else { // 下移
+				System.out.println(featureHouseDao.getMinIndex(id));
+				FeatureHouse bean2 = featureHouseDao.findByPriority(featureHouseDao.getMinIndex(id));
+				if (bean2 != null) {
+					Long priority1 = bean1.getPriority();
+					Long priority2 = bean2.getPriority();
+					bean1.setPriority(priority2);
+					bean2.setPriority(priority1);
+				}
+			}
+		}
 	}
 
 	/**

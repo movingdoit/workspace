@@ -5,10 +5,6 @@
  *******************************************************************************/
 package com.syju.condition.repository.jpa;
 
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,20 +15,8 @@ import com.syju.condition.entity.HotRecommend;
 public interface HotRecommendDao extends PagingAndSortingRepository<HotRecommend, Long>,
 		JpaSpecificationExecutor<HotRecommend> {
 
-	Page<HotRecommend> findBySiteConfigId(Long id, Pageable pageRequest);
-
-	// 验证标题是否存在
-	HotRecommend findByHotRecommendTitle(String title);
-
 	// 验证排序号是否存在
-	List<HotRecommend> findByPriority(Long priority);
-
-	@Query("from HotRecommend hr where hr.bindValue=?1 and hr.bindPath=?2 ")
-	List<HotRecommend> findHotRecommendListByBindValue_BindPath(String bindValue, String bindPath);
-
-	@Modifying
-	@Query("delete from HotRecommend hr where hr.bindValue=?1 and hr.bindPath=?2 ")
-	int deleteHotRecommendByBindValue_BindPath(String bindValue, String bindPath);
+	HotRecommend findByPriority(Long priority);
 
 	// 批量修改 排序号 (插入排序号)
 	@Modifying
@@ -53,4 +37,30 @@ public interface HotRecommendDao extends PagingAndSortingRepository<HotRecommend
 	@Modifying
 	@Query("update HotRecommend hr set hr.priority = hr.priority+1 where hr.priority < ?1 and hr.priority >= ?2")
 	int updateDESCPriority(Long oldPriority, Long newPriority);
+
+	// 根据ID查询出排序号，然后找出小于当前排序号的最大排序号（用来上移）
+	@Query("select MAX(priority) from HotRecommend where priority < (select priority from HotRecommend where id=?1)")
+	Long getMaxIndex(Long id);
+
+	// 根据ID查询出排序号，然后找出大于当前排序号的最小排序号（用来下移）
+	@Query("select MIN(priority) from HotRecommend where priority > (select priority from HotRecommend where id=?1)")
+	Long getMinIndex(Long id);
+
+	// 根据ID查询出排序号，然后找出小于当前排序号的最小排序号（用来置顶）
+	@Query("select MIN(priority) from HotRecommend where priority < (select priority from HotRecommend where id=?1)")
+	Long getTopIndex(Long id);
+
+	// 根据ID查询出排序号，然后找出大于当前排序号的最大排序号（用来置底）
+	@Query("select MAX(priority) from HotRecommend where priority > (select priority from HotRecommend where id=?1)")
+	Long getDownIndex(Long id);
+
+	// 批量修改 排序号 (置顶)
+	@Modifying
+	@Query("update HotRecommend hr set hr.priority = hr.priority+1 where hr.priority < ?1")
+	int updateTopPriority(Long priority);
+
+	// 批量修改 排序号 (置底)
+	@Modifying
+	@Query("update HotRecommend hr set hr.priority = hr.priority-1 where hr.priority > ?1")
+	int updateDownPriority(Long priority);
 }
