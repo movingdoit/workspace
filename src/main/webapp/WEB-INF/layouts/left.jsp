@@ -45,41 +45,67 @@
 	                <%-- <li ${(fn:contains(url, '/member/record/untreated') || fn:contains(url, '/member/handle/record') || fn:contains(url, '/member/data/') || fn:contains(url, '/member/info/') || fn:contains(url, '/member/address/')) ? 'class="active"' : ''}><a href="${ctx}/member/record/untreated">会员申请记录</a></li> --%>
 	            </ul>
 	        </li>
+	        
+	         <li class="submenu ${fn:contains(url, '/ad/vote') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>广告管理</span> <span class="label"> > </span></a>
+ 	            <ul>
+	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">首页广告</a></li>
+	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">楼盘展示页广告</a></li>
+	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">特价楼盘页广告</a></li>
+	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">搜索页广告</a></li>
+	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">新闻咨询页广告</a></li>
+	            </ul>
+	        </li>
+	        
+	         <li class="submenu ${fn:contains(url, '/ams/vote') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>专题活动管理</span> <span class="label"> > </span></a>
+ 	            <ul>
+	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">专题活动列表</a></li>
+	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">添加专题</a></li>
+	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">专题报名记录</a></li>
+	            </ul>
+	        </li>
     	  
-	        <li class="submenu ${((fn:contains(url, '/cms/content') || fn:contains(url, '/cms/channel')) && !fn:contains(parameters, 'custom=1')) ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>文章管理</span> <span class="label"> > </span></a>
+	        <li class="submenu ${fn:contains(url, '/specialHouse') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>特价楼盘管理</span> <span class="label"> > </span></a>
  	            <ul>
-	                <li ${(fn:contains(url, '/cms/content') && !fn:contains(parameters, 'custom=1')) ? 'class="active"' : ''}><a href="${ctx}/cms/content/manager">文章管理</a></li>
-	                <li ${fn:contains(url, '/cms/channel') ? 'class="active"' : ''}><a href="${ctx}/cms/channel">分类管理</a></li>
+	                <li ${(fn:contains(url, '/specialHouse/list')) ? 'class="active"' : ''}><a href="${ctx}/specialHouse/list">特价楼盘列表</a></li>
 	            </ul>
 	        </li>
 	        
-	        <li class="submenu ${fn:contains(url, '/ams/vote') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>投票管理</span> <span class="label"> > </span></a>
+	        <li class="submenu ${fn:contains(url, '/featureHouse') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>特色楼盘管理</span> <span class="label"> > </span></a>
  	            <ul>
-	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">投票列表</a></li>
-	                <li ${fn:contains(url, '/ams/vote/activity/create') ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity/create">发起投票</a></li>
+	                <li ${(fn:contains(url, '/featureHouse/list')) ? 'class="active"' : ''}><a href="${ctx}/featureHouse/list">特色楼盘列表</a></li>
 	            </ul>
 	        </li>
 	        
-	        <li class="submenu">
-	        	<a href="#"><i class="icon icon-leaf"></i><span>微喜帖管理</span><span class="label"> > </span></a>
-	        	<ul>
-	        		<li>
-	        			<a href="${ctx}/wedding/invitation/list">婚礼邀请函管理</a>
-	        		</li>
-	        		<li>
-	        			<a href="${ctx}/wedding/attache/list">邀请函封面管理</a>
-	        		</li>
-	        		<li>	
-	        			<a href="${ctx}/wedding/photo/list">婚纱照管理</a>
-	        		</li>
-	        		<li>
-	        			<a href="${ctx}/wedding/bless/list">祝福信息管理</a>
-	        		</li>
-	        		<li>
-	        			<a href="${ctx}/wedding/acceptor/list">确认出席婚礼信息管理</a>
-	        		</li>
-	        	</ul>
+	        <li class="submenu ${fn:contains(url, '/ams/vote') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>楼盘推荐管理</span> <span class="label"> > </span></a>
+ 	            <ul>
+	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">楼盘推荐列表</a></li>
+	            </ul>
 	        </li>
+	        
+	        <li class="submenu ${fn:contains(url, '/ams/vote') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>新盘导购管理</span> <span class="label"> > </span></a>
+ 	            <ul>
+	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">新盘导购列表</a></li>
+	            </ul>
+	        </li>
+	        
+	        <li class="submenu ${fn:contains(url, '/hotRecommend') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>热点推荐管理</span> <span class="label"> > </span></a>
+ 	            <ul>
+	                <li ${(fn:contains(url, '/hotRecommend/list')) ? 'class="active"' : ''}><a href="${ctx}/hotRecommend/list">热点推荐列表</a></li>
+	            </ul>
+	        </li>
+	        
+	        <li class="submenu ${fn:contains(url, '/hotSort') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>热销排行管理</span> <span class="label"> > </span></a>
+ 	            <ul>
+	                <li ${(fn:contains(url, '/hotSort/list')) ? 'class="active"' : ''}><a href="${ctx}/hotSort/list">热销排行列表</a></li>
+	            </ul>
+	        </li>
+	        
+	        <li class="submenu ${fn:contains(url, '/newFav') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>最新优惠管理</span> <span class="label"> > </span></a>
+ 	            <ul>
+	                <li ${(fn:contains(url, '/newFav/list')) ? 'class="active"' : ''}><a href="${ctx}/newFav/list">最新优惠列表</a></li>
+	            </ul>
+	        </li>
+	        
     	</shiro:hasRole>
     </ul>
 </div>
