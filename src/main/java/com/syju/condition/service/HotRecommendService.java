@@ -5,7 +5,6 @@
  *******************************************************************************/
 package com.syju.condition.service;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -54,16 +53,60 @@ public class HotRecommendService extends CommonService {
 		hotRecommendDao.delete(id);
 	}
 
-	// 验证轮播图标题是否存在
-	public HotRecommend checkTitle(String title) {
-		HotRecommend hotRecommend = hotRecommendDao.findByHotRecommendTitle(title);
+	// 验证排序号是否存在
+	public HotRecommend checkPriority(Long priority) {
+		HotRecommend hotRecommend = hotRecommendDao.findByPriority(priority);
 		return hotRecommend;
 	}
 
-	// 验证排序号是否存在
-	public List<HotRecommend> checkPriority(Long priority) {
-		List<HotRecommend> hotRecommendList = hotRecommendDao.findByPriority(priority);
-		return hotRecommendList;
+	/**
+	 * <p>
+	 * 上移，下移
+	 * </p>
+	 * 
+	 * @param id
+	 * @param type
+	 */
+	public void move(Long id, String type) {
+		HotRecommend bean1 = hotRecommendDao.findOne(id); // bean1表示当前的分类对象
+		if ((bean1 != null)) {
+			if (type.equals("up")) { // 上移
+				HotRecommend bean2 = hotRecommendDao.findByPriority(hotRecommendDao.getMaxIndex(id));
+				if (bean2 != null) { // bean2表示要和上一个排序号或下一个排序号的分类对象
+					Long priority1 = bean1.getPriority();
+					Long priority2 = bean2.getPriority();
+					bean1.setPriority(priority2);
+					bean2.setPriority(priority1);
+				}
+			} else if (type.equals("top")) { // 置顶
+
+				Long priority = bean1.getPriority();
+
+				hotRecommendDao.updateTopPriority(priority);// 批量修改 priority + 1
+				bean1.setPriority((long) 1);
+				hotRecommendDao.save(bean1);
+
+			} else if (type.equals("down")) { // 置底
+				Long priority = bean1.getPriority();
+
+				hotRecommendDao.updateDownPriority(priority);// 批量修改 priority + 1
+				Long downPriority = hotRecommendDao.getDownIndex(id);
+
+				bean1.setPriority(downPriority + 1);
+				hotRecommendDao.save(bean1);
+			}
+
+			else { // 下移
+				System.out.println(hotRecommendDao.getMinIndex(id));
+				HotRecommend bean2 = hotRecommendDao.findByPriority(hotRecommendDao.getMinIndex(id));
+				if (bean2 != null) {
+					Long priority1 = bean1.getPriority();
+					Long priority2 = bean2.getPriority();
+					bean1.setPriority(priority2);
+					bean2.setPriority(priority1);
+				}
+			}
+		}
 	}
 
 	/**

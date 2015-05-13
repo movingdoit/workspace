@@ -5,6 +5,8 @@
  *******************************************************************************/
 package com.syju.condition.entity;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -32,6 +34,7 @@ public class FeatureHouse extends IdEntity {
 	private String info; // 特色信息
 	private String title; // 标题
 	private Long priority;// 排序号
+	private Timestamp createTime;// 创建时间
 
 	private HouseInfo houseInfo;// 楼盘信息-id(关系映射)
 
@@ -71,6 +74,14 @@ public class FeatureHouse extends IdEntity {
 
 	public void setPriority(Long priority) {
 		this.priority = priority;
+	}
+
+	public Timestamp getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Timestamp createTime) {
+		this.createTime = createTime;
 	}
 
 	@Override

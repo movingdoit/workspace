@@ -5,7 +5,6 @@
  *******************************************************************************/
 package com.syju.condition.service;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -54,16 +53,60 @@ public class SpecialHouseService extends CommonService {
 		specialHouseServiceDao.delete(id);
 	}
 
-	// 验证轮播图标题是否存在
-	public SpecialHouse checkTitle(String title) {
-		SpecialHouse siteSlide = specialHouseServiceDao.findBySpecialHouseTitle(title);
+	// 验证排序号是否存在
+	public SpecialHouse checkPriority(Long priority) {
+		SpecialHouse siteSlide = specialHouseServiceDao.findByPriority(priority);
 		return siteSlide;
 	}
 
-	// 验证排序号是否存在
-	public List<SpecialHouse> checkPriority(Long priority) {
-		List<SpecialHouse> siteSlideList = specialHouseServiceDao.findByPriority(priority);
-		return siteSlideList;
+	/**
+	 * <p>
+	 * 上移，下移
+	 * </p>
+	 * 
+	 * @param id
+	 * @param type
+	 */
+	public void move(Long id, String type) {
+		SpecialHouse bean1 = specialHouseServiceDao.findOne(id); // bean1表示当前的分类对象
+		if ((bean1 != null)) {
+			if (type.equals("up")) { // 上移
+				SpecialHouse bean2 = specialHouseServiceDao.findByPriority(specialHouseServiceDao.getMaxIndex(id));
+				if (bean2 != null) { // bean2表示要和上一个排序号或下一个排序号的分类对象
+					Long priority1 = bean1.getPriority();
+					Long priority2 = bean2.getPriority();
+					bean1.setPriority(priority2);
+					bean2.setPriority(priority1);
+				}
+			} else if (type.equals("top")) { // 置顶
+
+				Long priority = bean1.getPriority();
+
+				specialHouseServiceDao.updateTopPriority(priority);// 批量修改 priority + 1
+				bean1.setPriority((long) 1);
+				specialHouseServiceDao.save(bean1);
+
+			} else if (type.equals("down")) { // 置底
+				Long priority = bean1.getPriority();
+
+				specialHouseServiceDao.updateDownPriority(priority);// 批量修改 priority + 1
+				Long downPriority = specialHouseServiceDao.getDownIndex(id);
+
+				bean1.setPriority(downPriority + 1);
+				specialHouseServiceDao.save(bean1);
+			}
+
+			else { // 下移
+				System.out.println(specialHouseServiceDao.getMinIndex(id));
+				SpecialHouse bean2 = specialHouseServiceDao.findByPriority(specialHouseServiceDao.getMinIndex(id));
+				if (bean2 != null) {
+					Long priority1 = bean1.getPriority();
+					Long priority2 = bean2.getPriority();
+					bean1.setPriority(priority2);
+					bean2.setPriority(priority1);
+				}
+			}
+		}
 	}
 
 	/**

@@ -5,7 +5,6 @@
  *******************************************************************************/
 package com.syju.condition.service;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -54,16 +53,60 @@ public class NewFavService extends CommonService {
 		newFavDao.delete(id);
 	}
 
-	// 验证轮播图标题是否存在
-	public NewFav checkTitle(String title) {
-		NewFav siteSlide = newFavDao.findByNewFavTitle(title);
+	// 验证排序号是否存在
+	public NewFav checkPriority(Long priority) {
+		NewFav siteSlide = newFavDao.findByPriority(priority);
 		return siteSlide;
 	}
 
-	// 验证排序号是否存在
-	public List<NewFav> checkPriority(Long priority) {
-		List<NewFav> siteSlideList = newFavDao.findByPriority(priority);
-		return siteSlideList;
+	/**
+	 * <p>
+	 * 上移，下移
+	 * </p>
+	 * 
+	 * @param id
+	 * @param type
+	 */
+	public void move(Long id, String type) {
+		NewFav bean1 = newFavDao.findOne(id); // bean1表示当前的分类对象
+		if ((bean1 != null)) {
+			if (type.equals("up")) { // 上移
+				NewFav bean2 = newFavDao.findByPriority(newFavDao.getMaxIndex(id));
+				if (bean2 != null) { // bean2表示要和上一个排序号或下一个排序号的分类对象
+					Long priority1 = bean1.getPriority();
+					Long priority2 = bean2.getPriority();
+					bean1.setPriority(priority2);
+					bean2.setPriority(priority1);
+				}
+			} else if (type.equals("top")) { // 置顶
+
+				Long priority = bean1.getPriority();
+
+				newFavDao.updateTopPriority(priority);// 批量修改 priority + 1
+				bean1.setPriority((long) 1);
+				newFavDao.save(bean1);
+
+			} else if (type.equals("down")) { // 置底
+				Long priority = bean1.getPriority();
+
+				newFavDao.updateDownPriority(priority);// 批量修改 priority + 1
+				Long downPriority = newFavDao.getDownIndex(id);
+
+				bean1.setPriority(downPriority + 1);
+				newFavDao.save(bean1);
+			}
+
+			else { // 下移
+				System.out.println(newFavDao.getMinIndex(id));
+				NewFav bean2 = newFavDao.findByPriority(newFavDao.getMinIndex(id));
+				if (bean2 != null) {
+					Long priority1 = bean1.getPriority();
+					Long priority2 = bean2.getPriority();
+					bean1.setPriority(priority2);
+					bean2.setPriority(priority1);
+				}
+			}
+		}
 	}
 
 	/**
