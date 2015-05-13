@@ -5,20 +5,23 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.syju.commons.entity.IdEntity;
+
 /**
  * 楼盘实体
+ * 
  * @author Administrator
  *
  */
 @Entity
 @Table(name = "syj_houseinfo")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class HouseInfo extends IdEntity implements Serializable{
+public class HouseInfo extends IdEntity implements Serializable {
 
 	private static final long serialVersionUID = -5021761816489548733L;
 
@@ -44,14 +47,63 @@ public class HouseInfo extends IdEntity implements Serializable{
 
 	private String developer;
 
-	private String areaType;
+	private int areaType;
 
-	private String houseType;
+	private int houseType;
 
-	private String homeType;
+	private int homeType;
 
-	private String priceType;
+	private int priceType;
 
+	private String summary;
+
+	private String houseAddr;
+	
+	private int recommend;
+	
+	private int recommend2;
+	
+	private Date createTime;
+	
+
+	/* 辅助字段 */
+	private BuildInfo build;
+
+	private PropertyInfo property;
+
+	@Transient
+	public BuildInfo getBuild() {
+		return build;
+	}
+
+	public void setBuild(BuildInfo bulid) {
+		this.build = bulid;
+	}
+
+	@Transient
+	public PropertyInfo getProperty() {
+		return property;
+	}
+
+	public void setProperty(PropertyInfo property) {
+		this.property = property;
+	}
+
+	public String getHouseAddr() {
+		return houseAddr;
+	}
+
+	public void setHouseAddr(String houseAddr) {
+		this.houseAddr = houseAddr;
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
 
 	public String getName() {
 		return Name;
@@ -141,36 +193,62 @@ public class HouseInfo extends IdEntity implements Serializable{
 		this.developer = developer;
 	}
 
-	public String getAreaType() {
+	public int getAreaType() {
 		return areaType;
 	}
 
-	public void setAreaType(String areaType) {
+	public void setAreaType(int areaType) {
 		this.areaType = areaType;
 	}
 
-	public String getHouseType() {
+	public int getHouseType() {
 		return houseType;
 	}
 
-	public void setHouseType(String houseType) {
+	public void setHouseType(int houseType) {
 		this.houseType = houseType;
 	}
 
-	public String getHomeType() {
+	public int getHomeType() {
 		return homeType;
 	}
 
-	public void setHomeType(String homeType) {
+	public void setHomeType(int homeType) {
 		this.homeType = homeType;
 	}
 
-	public String getPriceType() {
+	public int getPriceType() {
 		return priceType;
 	}
 
-	public void setPriceType(String priceType) {
+	public void setPriceType(int priceType) {
 		this.priceType = priceType;
 	}
+
+	public int getRecommend() {
+		return recommend;
+	}
+
+	public void setRecommend(int recommend) {
+		this.recommend = recommend;
+	}
+
+	public int getRecommend2() {
+		return recommend2;
+	}
+
+	public void setRecommend2(int recommend2) {
+		this.recommend2 = recommend2;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+	
+	
 
 }
