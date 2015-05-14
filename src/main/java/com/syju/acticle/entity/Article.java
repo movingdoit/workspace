@@ -1,7 +1,6 @@
 package com.syju.acticle.entity;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -12,14 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.syju.commons.entity.IdEntity;
-import com.syju.house.entity.HouseInfo;
-
-
-/**
- * 文章实体类管理
- * @author Administrator
- *
- */
+import com.syju.sys.entity.User;
 
 @Entity
 @Table(name = "article")
@@ -42,26 +34,14 @@ public class Article extends IdEntity implements java.io.Serializable {
 
 	private String source;
 	private String sourceUrl;
-	
-	// many to one
-	private HouseInfo houseInfo;
 
 	// one to one
 	private ArticleContent articleContent;
 
 	// many to one
 	private ArticleCategory articleCategory;
-
-	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "house_id")
-	public HouseInfo getHouseInfo() {
-		return houseInfo;
-	}
-
-	public void setHouseInfo(HouseInfo houseInfo) {
-		this.houseInfo = houseInfo;
-	}
+	private User user;
+	private User updateUser;
 
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "article", cascade = CascadeType.ALL)
 	// @OneToOne(fetch = FetchType.LAZY, optional = false, mappedBy = "article", cascade = CascadeType.ALL)
@@ -84,6 +64,27 @@ public class Article extends IdEntity implements java.io.Serializable {
 		this.articleCategory = articleCategory;
 	}
 
+	// JPA 基于user_id列的多对一关系定义
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	// JPA 基于update_user列的多对一关系定义
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "update_user")
+	public User getUpdateUser() {
+		return updateUser;
+	}
+
+	public void setUpdateUser(User updateUser) {
+		this.updateUser = updateUser;
+	}
 
 	public String getTitle() {
 		return title;
