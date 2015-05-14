@@ -63,4 +63,8 @@ public interface HotRecommendDao extends PagingAndSortingRepository<HotRecommend
 	@Modifying
 	@Query("update HotRecommend hr set hr.priority = hr.priority-1 where hr.priority > ?1")
 	int updateDownPriority(Long priority);
+	
+	//获取最大排序号
+	@Query("select MAX(priority) from HotRecommend ")
+	Long getMaxPriority();
 }

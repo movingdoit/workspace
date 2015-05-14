@@ -62,4 +62,9 @@ public interface NewFavDao extends PagingAndSortingRepository<NewFav, Long>, Jpa
 	@Modifying
 	@Query("update NewFav nf set nf.priority = nf.priority-1 where nf.priority > ?1")
 	int updateDownPriority(Long priority);
+	
+	//获取最大排序号
+	@Query("select MAX(priority) from NewFav ")
+	Long getMaxPriority();
+	
 }

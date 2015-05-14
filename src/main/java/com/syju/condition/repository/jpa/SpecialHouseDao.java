@@ -63,4 +63,11 @@ public interface SpecialHouseDao extends PagingAndSortingRepository<SpecialHouse
 	@Modifying
 	@Query("update SpecialHouse sh set sh.priority = sh.priority-1 where sh.priority > ?1")
 	int updateDownPriority(Long priority);
+	
+	//获取最大排序号
+	@Query("select MAX(priority) from SpecialHouse ")
+	Long getMaxPriority();
+
+	
+	
 }
