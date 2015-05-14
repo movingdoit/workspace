@@ -166,6 +166,15 @@ public class SpecialHouseService extends CommonService {
 
 		return specialHouseServiceDao.findAll(spec, pageRequest);
 	}
+	
+	// 获取最大排序号
+	public Long getMaxPriority(){
+		Long index = specialHouseServiceDao.getMaxPriority();
+		if(index==null){
+			return 1L;
+		}
+		return index;
+	}
 
 	/**
 	 * 创建分页请求.
@@ -190,6 +199,9 @@ public class SpecialHouseService extends CommonService {
 		Specification<SpecialHouse> spec = DynamicSpecifications.bySearchFilter(filters.values(), SpecialHouse.class);
 		return spec;
 	}
+	
+	
+	
 
 	// -----------------//
 	// Setter methods //

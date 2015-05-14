@@ -166,6 +166,19 @@ public class HotRecommendService extends CommonService {
 
 		return hotRecommendDao.findAll(spec, pageRequest);
 	}
+	
+	/**
+	 * 获取最大排序号
+	 * @return
+	 */
+	public Long getMaxPriority(){
+		Long index = hotRecommendDao.getMaxPriority();
+		if(index==null){
+			return 1L;
+		}
+		return index;
+	}
+
 
 	/**
 	 * 创建分页请求.

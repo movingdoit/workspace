@@ -166,6 +166,18 @@ public class FeatureHouseService extends CommonService {
 
 		return featureHouseDao.findAll(spec, pageRequest);
 	}
+	
+	/**
+	 * 获取最大排序号
+	 * @return
+	 */
+	public Long getMaxPriority(){
+		Long index = featureHouseDao.getMaxPriority();
+		if(index==null){
+			return 1L;
+		}
+		return index;
+	}
 
 	/**
 	 * 创建分页请求.
