@@ -47,9 +47,6 @@ public class ArticleController extends BaseController {
 	private ArticleContentService articleContentService;
 	@Resource
 	private ArticleCategoryService articleCategoryService;
-	
-	/*@Resource
-	private StockService stockService;*/
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
@@ -113,9 +110,9 @@ public class ArticleController extends BaseController {
 			@RequestParam(value = "manager", required = false) String manager,
 			@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request,
 			RedirectAttributes redirectAttributes) {
-		/*User user = new User();
+		User user = new User();
 		user.setId(getCurrentUserId());
-		article.setUser(user);*/
+		article.setUser(user);
 		article.setAddTime(new Timestamp(System.currentTimeMillis()));
 		article.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		// 处理上传图片
@@ -148,9 +145,9 @@ public class ArticleController extends BaseController {
 		String code = "1111";
 		String message = "创建失败，请重试！";
 
-		/*User user = new User();
+		User user = new User();
 		user.setId(getCurrentUserId());
-		article.setUser(user);*/
+		article.setUser(user);
 		article.setAddTime(new Timestamp(System.currentTimeMillis()));
 
 		if ((null != file) && StringUtils.isNotEmpty(file.getOriginalFilename())) {
@@ -206,7 +203,7 @@ public class ArticleController extends BaseController {
 		article.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		User user = new User();
 		user.setId(getCurrentUserId());
-		//article.setUpdateUser(user);
+		article.setUpdateUser(user);
 
 		if ((null != file) && StringUtils.isNotEmpty(file.getOriginalFilename())) {
 			String fileName = uploadFile(file, request, UPLOAD_ROOT_PATH);
@@ -241,7 +238,7 @@ public class ArticleController extends BaseController {
 		article.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		User user = new User();
 		user.setId(getCurrentUserId());
-		//article.setUpdateUser(user);
+		article.setUpdateUser(user);
 
 		if ((null != file) && StringUtils.isNotEmpty(file.getOriginalFilename())) {
 			String fileName = uploadFile(file, request, UPLOAD_ROOT_PATH);

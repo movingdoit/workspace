@@ -12,7 +12,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-
 @Entity
 @Table(name = "article_content")
 public class ArticleContent implements java.io.Serializable {
@@ -54,4 +53,3 @@ public class ArticleContent implements java.io.Serializable {
 	}
 
 }
-

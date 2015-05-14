@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Copyright (c) 2005, 2014 springside.github.io
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ *******************************************************************************/
 package com.syju.acticle.entity;
 
 import java.util.List;
@@ -17,12 +22,10 @@ import com.google.common.collect.Lists;
 import com.syju.commons.entity.IdEntity;
 
 /**
- * 文章分类实体
+ * 用户.
  * 
- * @author Administrator
- *
+ * @author 王德仁
  */
-
 @Entity
 @Table(name = "article_category")
 // 默认的缓存策略.

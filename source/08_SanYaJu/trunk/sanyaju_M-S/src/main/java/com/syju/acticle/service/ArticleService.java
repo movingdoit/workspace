@@ -64,15 +64,8 @@ public class ArticleService extends CommonService {
 	}
 
 	/*
-	 * public boolean changeDisplay(Long id, boolean isDisplay) {
-	 * try {
-	 * articleDao.changeDisplay(isDisplay, id);
-	 * return true;
-	 * } catch (Exception e) {
-	 * logger.error(e.getMessage());
-	 * return false;
-	 * }
-	 * }
+	 * public boolean changeDisplay(Long id, boolean isDisplay) { try { articleDao.changeDisplay(isDisplay, id); return
+	 * true; } catch (Exception e) { logger.error(e.getMessage()); return false; } }
 	 */
 
 	/**
