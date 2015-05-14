@@ -63,4 +63,8 @@ public interface FeatureHouseDao extends PagingAndSortingRepository<FeatureHouse
 	@Modifying
 	@Query("update FeatureHouse fh set fh.priority = fh.priority-1 where fh.priority > ?1")
 	int updateDownPriority(Long priority);
+	
+	//获取最大排序号
+	@Query("select MAX(priority) from FeatureHouse ")
+	Long getMaxPriority();
 }

@@ -62,4 +62,8 @@ public interface HotSortDao extends PagingAndSortingRepository<HotSort, Long>, J
 	@Modifying
 	@Query("update HotSort hs set hs.priority = hs.priority-1 where hs.priority > ?1")
 	int updateDownPriority(Long priority);
+	
+	//获取最大排序号
+	@Query("select MAX(priority) from HotSort ")
+	Long getMaxPriority();
 }
