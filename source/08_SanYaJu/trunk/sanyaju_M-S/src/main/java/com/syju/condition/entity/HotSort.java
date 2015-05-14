@@ -5,6 +5,8 @@
  *******************************************************************************/
 package com.syju.condition.entity;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -32,6 +34,7 @@ public class HotSort extends IdEntity {
 	private Long saleCount; // 销售房数
 	private String SortInfo; // 排行信息
 	private Long priority;// 排序号
+	private Timestamp createTime;// 创建时间
 
 	private HouseInfo houseInfo;// 楼盘信息-id(关系映射)
 
@@ -48,6 +51,14 @@ public class HotSort extends IdEntity {
 	}
 
 	// -----------------end-----------------
+
+	public Timestamp getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Timestamp createTime) {
+		this.createTime = createTime;
+	}
 
 	public Long getSaleCount() {
 		return saleCount;

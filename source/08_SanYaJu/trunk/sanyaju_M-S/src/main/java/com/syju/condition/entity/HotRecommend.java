@@ -5,6 +5,8 @@
  *******************************************************************************/
 package com.syju.condition.entity;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -32,6 +34,7 @@ public class HotRecommend extends IdEntity {
 	private Long fangwenCount; // 访问次数
 	private String redianInfo;// 热点信息
 	private Long priority;// 排序号
+	private Timestamp createTime;// 创建时间
 
 	private HouseInfo houseInfo;// 楼盘信息-id(关系映射)
 
@@ -48,6 +51,14 @@ public class HotRecommend extends IdEntity {
 	}
 
 	// -----------------end-----------------
+
+	public Timestamp getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Timestamp createTime) {
+		this.createTime = createTime;
+	}
 
 	public Long getFangwenCount() {
 		return fangwenCount;
