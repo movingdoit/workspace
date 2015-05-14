@@ -5,6 +5,8 @@
  *******************************************************************************/
 package com.syju.condition.entity;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -32,6 +34,7 @@ public class SpecialHouse extends IdEntity {
 	private Double discount; // 折扣
 	private String discountInfo;// 折扣信息
 	private Long priority;// 排序号
+	private Timestamp createTime;// 创建时间
 
 	private HouseInfo houseInfo; // 楼盘信息-id(关系映射)
 
@@ -48,6 +51,14 @@ public class SpecialHouse extends IdEntity {
 	}
 
 	// -----------------end-----------------
+	public Timestamp getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Timestamp createTime) {
+		this.createTime = createTime;
+	}
+
 	public Double getDiscount() {
 		return discount;
 	}
