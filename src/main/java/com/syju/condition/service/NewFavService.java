@@ -166,6 +166,16 @@ public class NewFavService extends CommonService {
 		return newFavDao.findAll(spec, pageRequest);
 	}
 
+	
+	// 获取最大排序号
+	public Long getMaxPriority(){
+		Long index = newFavDao.getMaxPriority();
+		if(index==null){
+			return 1L;
+		}
+		return index;
+	}
+	
 	/**
 	 * 创建分页请求.
 	 */

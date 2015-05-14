@@ -165,6 +165,18 @@ public class HotSortService extends CommonService {
 
 		return hotSortDao.findAll(spec, pageRequest);
 	}
+	
+	/**
+	 * 获取最大排序号
+	 * @return
+	 */
+	public Long getMaxPriority(){
+		Long index = hotSortDao.getMaxPriority();
+		if(index==null){
+			return 1L;
+		}
+		return index;
+	}
 
 	/**
 	 * 创建分页请求.
