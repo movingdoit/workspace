@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springside.modules.web.Servlets;
 
 import com.syju.commons.controller.BaseController;
@@ -128,21 +129,31 @@ public class HotRecommendController extends BaseController {
 		return resultMap;
 	}
 
-	// 修改 论坛是否 开启
-	@RequestMapping(value = "changeStatus", method = RequestMethod.GET)
-	public String changeStatus(@Valid @ModelAttribute("hotRecommend") HotRecommend hotRecommend,
-			@RequestParam(value = "status", defaultValue = "") boolean status) {
+	/**
+	 * <p>
+	 * 上移,下移,置顶,置底
+	 * </p>
+	 * 
+	 * @param id
+	 * @param type
+	 */
+	@RequestMapping(value = "move", method = RequestMethod.POST)
+	@ResponseBody
+	public void move(@RequestParam(value = "id", defaultValue = "") Long id,
+			@RequestParam(value = "type", defaultValue = "") String type) {
+		hotRecommendService.move(id, type);
+	}
 
-		try {
-			if (null != hotRecommend) {
-				// hotRecommend.setStatus(status);
-				hotRecommendService.saveHotRecommend(hotRecommend);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	@RequestMapping(value = "delete/{id}")
+	public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+		HotRecommend hotRecommend = hotRecommendService.getHotRecommend(id);
+		Long priority = hotRecommend.getPriority(); // 获取删除的分类排序号
+		hotRecommendService.deleteHotRecommend(id);
 
-		return "redirect:/bbs/forum/list";
+		hotRecommendService.moveSorting(priority); // 删除后后，批量修改排序号（-1）
+
+		redirectAttributes.addFlashAttribute("message", "删除成功");
+		return "redirect:/hotRecommend/list";
 	}
 
 	/**

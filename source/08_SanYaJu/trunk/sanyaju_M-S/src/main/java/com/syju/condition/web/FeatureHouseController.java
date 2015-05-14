@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springside.modules.web.Servlets;
 
 import com.syju.commons.controller.BaseController;
@@ -51,10 +52,6 @@ public class FeatureHouseController extends BaseController {
 	public String createForm(Model model) {
 		model.addAttribute("featureHouse", new FeatureHouse());
 
-		// List<MemberGrFeatureHousee> memberGrFeatureHouseeList =
-		// memberGrFeatureHouseeService.memberGrFeatureHouseeList();
-		// model.FeatureHousedAttribute("memberGrFeatureHouseeList", memberGrFeatureHouseeList);
-
 		model.addAttribute("action", "create");
 		return "bbs/forum/forumForm";
 	}
@@ -71,18 +68,6 @@ public class FeatureHouseController extends BaseController {
 		Map<String, String> resultMap = new HashMap<String, String>();
 		String code = "1111";
 		String message = "论坛名字已存在，请换个！";
-
-		if (0 == 0) { // 不为零时才能添加
-			// Forum checkTile = forumService.checkTitle(forumTitle);// 验证数据库是否存在 改论坛名字
-			// Forum checkPriority = forumService.checkPriority(priority); // 检查 排序号是否存在
-			if (null == FeatureHouse) {
-				try {
-				} catch (Exception e) {
-					e.printStackTrace();
-					message = "可能填写错误了，请注意提示！";
-				}
-			}
-		}
 		resultMap.put("code", code);
 		resultMap.put("msg", message);
 
@@ -95,10 +80,6 @@ public class FeatureHouseController extends BaseController {
 		FeatureHouse FeatureHouse = featureHouseService.getFeatureHouse(id);
 		model.addAttribute("featureHouse", FeatureHouse);
 
-		// List<MemberGrFeatureHousee> memberGrFeatureHouseeList =
-		// memberGrFeatureHouseeService.memberGrFeatureHouseeList();
-		// model.FeatureHousedAttribute("memberGrFeatureHouseeList", memberGrFeatureHouseeList);
-
 		model.addAttribute("action", "update");
 		return "bbs/forum/forumForm";
 	}
@@ -107,42 +88,42 @@ public class FeatureHouseController extends BaseController {
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, String> update(@Valid @ModelAttribute("featureHouse") FeatureHouse featureHouse,
-			@RequestParam(value = "attrList", defaultValue = "") String fenlei[],
-			@RequestParam(value = "forumTitle", defaultValue = "") String forumTitle,
-			@RequestParam(value = "file", required = false) MultipartFile file,
 			@RequestParam(value = "paixu", defaultValue = "") Long priority, HttpServletRequest request) {
-		if (null != featureHouse) {
-		}
 		// 定义返回json格式的Map数据
 		Map<String, String> resultMap = new HashMap<String, String>();
 		String code = "1111";
 		String message = "修改失败，请重试！";
-		if (0 == 0) { // 不为0 是才能修改
-			// SiteConfig siteConfig = siteService.getSiteConfigByUserId(getCurrentUserId());
-			// Forum checkPriority = forumService.checkPriority(priority); // 检查 排序号是否存在
-			// String checkTitle = forum.getTitle(); // 数据库的论坛名字
-		}
 		resultMap.put("code", code);
 		resultMap.put("msg", message);
 
 		return resultMap;
 	}
 
-	// 修改 论坛是否 开启
-	@RequestMapping(value = "changeStatus", method = RequestMethod.GET)
-	public String changeStatus(@Valid @ModelAttribute("FeatureHouse") FeatureHouse featureHouse,
-			@RequestParam(value = "status", defaultValue = "") boolean status) {
+	/**
+	 * <p>
+	 * 上移,下移,置顶,置底
+	 * </p>
+	 * 
+	 * @param id
+	 * @param type
+	 */
+	@RequestMapping(value = "move", method = RequestMethod.POST)
+	@ResponseBody
+	public void move(@RequestParam(value = "id", defaultValue = "") Long id,
+			@RequestParam(value = "type", defaultValue = "") String type) {
+		featureHouseService.move(id, type);
+	}
 
-		try {
-			if (null != featureHouse) {
-				// FeatureHouse.setStatus(status);
-				featureHouseService.saveFeatureHouse(featureHouse);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	@RequestMapping(value = "delete/{id}")
+	public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+		FeatureHouse featureHouse = featureHouseService.getFeatureHouse(id);
+		Long priority = featureHouse.getPriority(); // 获取删除的分类排序号
+		featureHouseService.deleteFeatureHouse(id);
 
-		return "redirect:/bbs/forum/list";
+		featureHouseService.moveSorting(priority); // 删除后后，批量修改排序号（-1）
+
+		redirectAttributes.addFlashAttribute("message", "删除成功");
+		return "redirect:/featureHouse/list";
 	}
 
 	/**
