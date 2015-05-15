@@ -4,7 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DictType {
-
+	
+	
+	public final static int specialHouse = 1;  //特价楼盘
+	public final static int featureHouse = 2;  //特色楼盘
+	public final static int hotrecommend = 3;  //热点推荐
+	public final static int hotSort = 4;       //热销排行
+	public final static int newFav = 5;        //最新优惠
+	
 	/* 楼盘类型 */
 	public static Map<Integer, String> getHouseType() {
 		Map<Integer, String> map = new HashMap<Integer, String>();
@@ -62,5 +69,25 @@ public class DictType {
 		map.put(5, "最新优惠");
 		return map;
 	}
-
+	
+	
+	/* 楼盘图片分类*/
+	public static Map<Integer, String> getHousePhoto() {
+		Map<Integer, String> map = new HashMap<Integer, String>();
+		map.put(1, "实景图");
+		map.put(2, "效果图");
+		map.put(3, "样板图");
+		map.put(4, "区位交通图");
+		return map;
+	}
+	
+	/* 团购类型*/
+	public static Map<Integer, String> getActivityType() {
+		Map<Integer, String> map = new HashMap<Integer, String>();
+		map.put(1, "团购活动");
+		map.put(2, "专题活动");
+		return map;
+	}
+	
+	
 }
