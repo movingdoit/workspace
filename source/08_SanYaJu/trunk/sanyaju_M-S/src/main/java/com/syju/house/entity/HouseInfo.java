@@ -1,6 +1,7 @@
 package com.syju.house.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -39,9 +40,9 @@ public class HouseInfo extends IdEntity implements Serializable {
 
 	private int planHome;
 
-	private Date beginDate;
+	private Timestamp beginDate;
 
-	private Date getHomeDate;
+	private Timestamp getHomeDate;
 
 	private String saleStatus;
 
@@ -58,18 +59,28 @@ public class HouseInfo extends IdEntity implements Serializable {
 	private String summary;
 
 	private String houseAddr;
-	
-	private int recommend;
-	
-	private int recommend2;
-	
+
+	private String recommend;
+
 	private Date createTime;
-	
+
+	private String coversPic;
 
 	/* 辅助字段 */
 	private BuildInfo build;
 
 	private PropertyInfo property;
+
+	private HouseInfo houseInfo;
+
+	@Transient
+	public HouseInfo getHouseInfo() {
+		return houseInfo;
+	}
+
+	public void setHouseInfo(HouseInfo houseInfo) {
+		this.houseInfo = houseInfo;
+	}
 
 	@Transient
 	public BuildInfo getBuild() {
@@ -83,6 +94,14 @@ public class HouseInfo extends IdEntity implements Serializable {
 	@Transient
 	public PropertyInfo getProperty() {
 		return property;
+	}
+
+	public String getCoversPic() {
+		return coversPic;
+	}
+
+	public void setCoversPic(String coversPic) {
+		this.coversPic = coversPic;
 	}
 
 	public void setProperty(PropertyInfo property) {
@@ -161,19 +180,19 @@ public class HouseInfo extends IdEntity implements Serializable {
 		this.planHome = planHome;
 	}
 
-	public Date getBeginDate() {
+	public Timestamp getBeginDate() {
 		return beginDate;
 	}
 
-	public void setBeginDate(Date beginDate) {
+	public void setBeginDate(Timestamp beginDate) {
 		this.beginDate = beginDate;
 	}
 
-	public Date getGetHomeDate() {
+	public Timestamp getGetHomeDate() {
 		return getHomeDate;
 	}
 
-	public void setGetHomeDate(Date getHomeDate) {
+	public void setGetHomeDate(Timestamp getHomeDate) {
 		this.getHomeDate = getHomeDate;
 	}
 
@@ -225,20 +244,12 @@ public class HouseInfo extends IdEntity implements Serializable {
 		this.priceType = priceType;
 	}
 
-	public int getRecommend() {
+	public String getRecommend() {
 		return recommend;
 	}
 
-	public void setRecommend(int recommend) {
+	public void setRecommend(String recommend) {
 		this.recommend = recommend;
-	}
-
-	public int getRecommend2() {
-		return recommend2;
-	}
-
-	public void setRecommend2(int recommend2) {
-		this.recommend2 = recommend2;
 	}
 
 	public Date getCreateTime() {
@@ -248,7 +259,5 @@ public class HouseInfo extends IdEntity implements Serializable {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	
-	
 
 }
