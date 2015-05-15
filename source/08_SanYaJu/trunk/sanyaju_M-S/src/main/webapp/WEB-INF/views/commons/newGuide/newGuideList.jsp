@@ -5,7 +5,7 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
-	<title>热点推荐列表</title>
+	<title>新盘导购列表</title>
 	<script>
 		$(document).ready(function() {
 			$("#account-tab").addClass("active");   
@@ -17,7 +17,7 @@
 <div id="content">
     <!-- Breadcrumbs -->
     <div id="content-header">
-        <h1>热点推荐列表</h1>
+        <h1>新盘导购列表</h1>
     </div>
     <!-- // Breadcrumbs -->
     <!-- Action Boxes -->
@@ -36,15 +36,13 @@
                             	<th>开发商</th>
                             	<th>售楼电话</th>
                             	<th>创建时间</th>
-                                <th>热点信息</th>
-		                        <th>访问次数</th>
 		                        <th>排序</th>
 		                        <th>操作</th>
                             </tr>
                             </thead>
                             <tbody id="proList">
-                            <c:if test="${not empty hotRecommends && hotRecommends.size>0}">
-	                            <c:forEach items="${hotRecommends.content}" var="Item">
+                            <c:if test="${not empty newGuides && newGuides.size>0}">
+	                            <c:forEach items="${newGuides.content}" var="Item">
 									<tr>
 										<td>${Item.houseInfo.name}</td>
 										<td>${Item.houseInfo.houseType}</td>
@@ -52,8 +50,6 @@
 										<td>${Item.houseInfo.developer}</td>
 										<td>${Item.houseInfo.saleMobile}</td>
 										<td>${Item.createTime}</td>
-										<td>${Item.redianInfo}</td>
-										<td>${Item.fangwenCount}</td>
 										<td>
 											<a href="#" onclick="movePriority(${Item.id},'top')" class="btn btn-link arrow-first">置顶</a>
 	                                        <a href="#" onclick="movePriority(${Item.id},'down')" class="btn btn-link arrow-last">置底</a>
@@ -62,21 +58,21 @@
 										</td>
 										<td>
 											<shiro:hasPermission name="user:edit">
-												<a href="${ctx}/hotRecommend/delete/${Item.id}" class="btn btn-mini">删除</a>
+												<a href="${ctx}/newGuide/delete/${Item.id}" class="btn btn-mini">删除</a>
 											</shiro:hasPermission>
 										</td>
 									</tr>
 								</c:forEach>
 							</c:if>
-							<c:if test="${empty hotRecommends || hotRecommends.totalPages == 0 }">
+							<c:if test="${empty newGuides || newGuides.totalPages == 0 }">
 								<tr>
-		                            <td colspan="10" class="text-center"><strong>没有任何信息 *_*</strong></td>
+		                            <td colspan="7" class="text-center"><strong>没有任何信息 *_*</strong></td>
 		                        </tr>
 							</c:if>
                             </tbody>
                         </table>
-                         <c:if test="${not empty hotRecommends && hotRecommends.totalPages >1 }">
-                        	<tags:pagination page="${hotRecommends}" paginationSize="5"/>
+                         <c:if test="${not empty newGuides && newGuides.totalPages >1 }">
+                        	<tags:pagination page="${newGuides}" paginationSize="5"/>
                         </c:if>
                 </div>
             </div>
@@ -91,7 +87,7 @@
 	function movePriority(id, type){
 		$.ajax({
 	        type: "POST",
-	        url:'${ctx}/hotRecommend/move?id='+id+'&type='+type,
+	        url:'${ctx}/newGuide/move?id='+id+'&type='+type,
 	        async: false,
 	        success: function(data) {
 	        		location.reload();
@@ -102,9 +98,9 @@
 	    });
 	}
 
-	 /*
-	 * table排序上移下移
-	 * */
+ /*
+ * table排序上移下移
+ * */
     // 上移
     $('.arrow-up').click(function(e){
         e.preventDefault();

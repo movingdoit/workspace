@@ -55,14 +55,14 @@
 										<td>${Item.title}</td>
 										<td>${Item.info}</td>
 										<td>
-											<a href="#" onclick="movePriority(${category.id},'top')" class="btn btn-link arrow-first">置顶</a>
-	                                        <a href="#" onclick="movePriority(${category.id},'down')" class="btn btn-link arrow-last">置底</a>
-	                                        <a href="#" onclick="movePriority(${category.id},'up')" class="btn btn-link arrow-up">上移</a>
-	                                        <a href="#" onclick="movePriority(${category.id},'dn')" class="btn btn-link arrow-down">下移</a>
+											<a href="#" onclick="movePriority(${Item.id},'top')" class="btn btn-link arrow-first">置顶</a>
+	                                        <a href="#" onclick="movePriority(${Item.id},'down')" class="btn btn-link arrow-last">置底</a>
+	                                        <a href="#" onclick="movePriority(${Item.id},'up')" class="btn btn-link arrow-up">上移</a>
+	                                        <a href="#" onclick="movePriority(${Item.id},'dn')" class="btn btn-link arrow-down">下移</a>
 										</td>
 										<td>
 											<shiro:hasPermission name="user:edit">
-												<a href="${ctx}/bbs/slide/update/${Item.id}" class="btn btn-mini">编辑</a>
+												<a href="${ctx}/featureHouse/delete/${Item.id}" class="btn btn-mini">删除</a>
 											</shiro:hasPermission>
 										</td>
 									</tr>
@@ -85,78 +85,84 @@
     <!-- // Action Boxes -->
 </div>
 <!-- // Main Container -->
-<script type="text/javascript" >
+<script type="text/javascript">
 
- 	// 新增轮播图
-	function create(){
+	//上移，下移
+	function movePriority(id, type){
 		$.ajax({
-	        type: "GET",
-	        url:'${ctx}/bbs/slide/create',
+	        type: "POST",
+	        url:'${ctx}/featureHouse/move?id='+id+'&type='+type,
 	        async: false,
 	        success: function(data) {
-	        	if(data){
-	        		$('#addSlideModal').html(data);
-	        	}else{
-	            	alert("操作异常，请重试。");
-	        	}
+	        		location.reload();
 	        },
 	        error: function(request) {
 	            alert("网络连接超时，请重试！");
 	        }
 	    });
 	}
- 	
- 	// 修改轮播图
-	function update(id){
-		$.ajax({
-	        type: "GET",
-	        url:'${ctx}/bbs/slide/update/'+id,
-	        async: false,
-	        success: function(data) {
-	        	if(data){
-	        		$('#myModal').html(data);
-	       			$('#myModal').modal();
-	        	}else{
-	            	alert("操作异常，请重试。");
-	        	}
-	        },
-	        error: function(request) {
-	            alert("网络连接超时，请重试！");
-	        }
-	    });
-	}
- 	
- 	// 修改是否显示
-	function changeDisplay(id, isDisplay){
-		$.ajax({
-	        type: "GET",
-	        url:'${ctx}/bbs/slide/changeDisplay?id='+id+'&isDisplay='+isDisplay,
-	        async: false,
-	        success: function(data) {
-	        	location.reload();
-	        },
-	        error: function(request) {
-	            alert("网络连接超时，请重试！");
-	        }
-	    });
-	}
- 	
- 	
-	//批量删除
-	function batDelete(){
-		var chk_value =[];    
-		$('input[name="id"]:checked').each(function(){    
-		   chk_value.push($(this).val());    
-		});    
-		
-		if(chk_value==null||chk_value==''||chk_value.length==0){
-		 	alert("请选择要删除的数据！");
-		    return false;
-		}
-		if(confirm("您确定要删除这些记录吗？删除后，无法恢复。")){
-			window.location.href = '${ctx}/bbs/slide/batDelete/'+chk_value;
-        }
-	}
+	
+	 /*
+     * table排序上移下移
+     * */
+        // 上移
+        $('.arrow-up').click(function(e){
+            e.preventDefault();
+            var $this = $(this)
+                ,$tr = $this.parents('tr')
+                ,$trIndex = $tr.index()
+                ,$tbody = $this.parents('tbody')
+                ,$trLast = $tbody.children('tr:last-child');
+            if ($trIndex == 0) {
+                alert('第一条，不能再上移！');
+                //$trLast.after($tr);
+            }else {
+                $tr.prev().before($tr);
+            }
+        });
+        //下移
+        $('.arrow-down').click(function(e){
+            e.preventDefault();
+            var $this = $(this)
+                ,$tr = $this.parents('tr')
+                ,$trIndex = $tr.index()
+                ,$tbody = $this.parents('tbody')
+                ,$trFirst = $tbody.children('tr:first-child');
+            if ($trIndex == $tbody.find('tr').length - 1 ) {
+                alert('最后一条，不能再下移！');
+                //$trFirst.before($tr);
+            }else {
+                $tr.next().after($tr);
+            }
+        });
+        //置顶
+        $('.arrow-first').click(function(e){
+            e.preventDefault();
+            var $this = $(this)
+                ,$tr = $this.parents('tr')
+                ,$trIndex = $tr.index()
+                ,$tbody = $this.parents('tbody')
+                ,$trFirst = $tbody.children('tr:first-child');
+            if ($trIndex == 0) {
+                alert('已在最顶部');
+            }else {
+                $trFirst.before($tr);
+            }
+        });
+        //置底
+        $('.arrow-last').click(function(e){
+            e.preventDefault();
+            var $this = $(this)
+                ,$tr = $this.parents('tr')
+                ,$trIndex = $tr.index()
+                ,$tbody = $this.parents('tbody')
+                ,$trLast = $tbody.children('tr:last-child');
+            if ($trIndex == $tbody.find('tr').length - 1 ) {
+                alert('已在最底部');
+            }else {
+                $trLast.after($tr);
+            }
+        });
 	
 </script>
 </body>
