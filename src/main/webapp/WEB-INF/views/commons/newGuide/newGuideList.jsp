@@ -72,7 +72,7 @@
                             </tbody>
                         </table>
                          <c:if test="${not empty newGuides && newGuides.totalPages >1 }">
-                        	<tags:pagination page="${newGuides}" paginationSize="5"/>
+                        	<tags:pagination page="${newGuides}" paginationSize="10"/>
                         </c:if>
                 </div>
             </div>

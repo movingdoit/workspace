@@ -74,7 +74,7 @@
                             </tbody>
                         </table>
                          <c:if test="${not empty newFavs && newFavs.totalPages >1 }">
-                        	<tags:pagination page="${newFavs}" paginationSize="5"/>
+                        	<tags:pagination page="${newFavs}" paginationSize="10"/>
                         </c:if>
                 </div>
             </div>

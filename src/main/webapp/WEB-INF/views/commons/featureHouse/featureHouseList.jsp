@@ -76,7 +76,7 @@
                             </tbody>
                         </table>
                          <c:if test="${not empty featureHouses && featureHouses.totalPages >1 }">
-                        	<tags:pagination page="${featureHouses}" paginationSize="5"/>
+                        	<tags:pagination page="${featureHouses}" paginationSize="10"/>
                         </c:if>
                 </div>
             </div>

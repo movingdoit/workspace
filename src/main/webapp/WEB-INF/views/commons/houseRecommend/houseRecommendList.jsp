@@ -72,7 +72,7 @@
                             </tbody>
                         </table>
                          <c:if test="${not empty hotSorts && hotSorts.totalPages >1 }">
-                        	<tags:pagination page="${hotSorts}" paginationSize="5"/>
+                        	<tags:pagination page="${hotSorts}" paginationSize="10"/>
                         </c:if>
                 </div>
             </div>

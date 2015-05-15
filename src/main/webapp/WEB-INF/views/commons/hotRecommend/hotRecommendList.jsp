@@ -76,7 +76,7 @@
                             </tbody>
                         </table>
                          <c:if test="${not empty hotRecommends && hotRecommends.totalPages >1 }">
-                        	<tags:pagination page="${hotRecommends}" paginationSize="5"/>
+                        	<tags:pagination page="${hotRecommends}" paginationSize="10"/>
                         </c:if>
                 </div>
             </div>

@@ -76,7 +76,7 @@
                             </tbody>
                         </table>
                          <c:if test="${not empty siteSlides && siteSlides.totalPages >1 }">
-                        	<tags:pagination page="${siteSlides}" paginationSize="5"/>
+                        	<tags:pagination page="${siteSlides}" paginationSize="10"/>
                         </c:if>
                 </div>
             </div>
