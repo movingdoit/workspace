@@ -41,7 +41,7 @@ public class HouseRecommendController extends BaseController {
 
 		model.addAttribute("houseRecommends", houseRecommends);
 
-		return "commons/houseRecommend/houseRecommendList";
+		return "condition/houseRecommend/houseRecommendList";
 	}
 
 	/**
