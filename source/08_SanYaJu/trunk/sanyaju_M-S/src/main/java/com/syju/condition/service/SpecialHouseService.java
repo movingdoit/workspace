@@ -114,8 +114,10 @@ public class SpecialHouseService extends CommonService {
 	 * 排序，可以输入排序号，进行排序
 	 * </p>
 	 * 
-	 * @param oldPriority //旧的排序号
-	 * @param newPriority //新的排序号
+	 * @param oldPriority
+	 *            //旧的排序号
+	 * @param newPriority
+	 *            //新的排序号
 	 */
 	public void sorting(Long oldPriority, Long newPriority) {
 		if (oldPriority > newPriority) {
@@ -166,14 +168,41 @@ public class SpecialHouseService extends CommonService {
 
 		return specialHouseServiceDao.findAll(spec, pageRequest);
 	}
-	
+
 	// 获取最大排序号
-	public Long getMaxPriority(){
+	public Long getMaxPriority() {
 		Long index = specialHouseServiceDao.getMaxPriority();
-		if(index==null){
+		if (index == null) {
 			return 1L;
 		}
 		return index;
+	}
+
+	/**
+	 * 通过外键获取对象
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public SpecialHouse findByHouse(Long id) {
+		return specialHouseServiceDao.findByHouseInfoId(id);
+	}
+
+	/**
+	 * 组合查询
+	 * 
+	 * @param name
+	 * @param pageNumber
+	 * @param pagzSize
+	 * @param sortType
+	 * @return
+	 */
+	public Page<SpecialHouse> findBySpecialHouseAndHouse(String name, int pageNumber, int pagzSize, String sortType) {
+		if (name != null) {
+			name = "%" + name.trim() + "%";
+		}
+		PageRequest pageRequest = buildPageRequest(pageNumber, pagzSize, sortType);
+		return specialHouseServiceDao.findBySpecialHouseAndHouse(name, pageRequest);
 	}
 
 	/**
@@ -199,9 +228,6 @@ public class SpecialHouseService extends CommonService {
 		Specification<SpecialHouse> spec = DynamicSpecifications.bySearchFilter(filters.values(), SpecialHouse.class);
 		return spec;
 	}
-	
-	
-	
 
 	// -----------------//
 	// Setter methods //

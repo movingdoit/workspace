@@ -5,6 +5,10 @@
  *******************************************************************************/
 package com.syju.condition.repository.jpa;
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -63,8 +67,33 @@ public interface FeatureHouseDao extends PagingAndSortingRepository<FeatureHouse
 	@Modifying
 	@Query("update FeatureHouse fh set fh.priority = fh.priority-1 where fh.priority > ?1")
 	int updateDownPriority(Long priority);
-	
-	//获取最大排序号
+
+	// 获取最大排序号
 	@Query("select MAX(priority) from FeatureHouse ")
 	Long getMaxPriority();
+
+	// 通过外键查找
+	FeatureHouse findByHouseInfoId(Long id);
+
+	/**
+	 * 通过外检删除
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@Modifying
+	@Query("delete from  FeatureHouse sh  where sh.houseInfo.id = ?1")
+	int deleteByHouse(Long id);
+
+	/**
+	 * 通过外检关联查询
+	 * 
+	 * @param name
+	 * @param pageable
+	 * @return
+	 */
+	@Query("select s from FeatureHouse s,HouseInfo h where s.houseInfo.id = h.id and h.name like ?1 ")
+	Page<FeatureHouse> findFeatureHouseAndHouse(String name, Pageable pageable);
+	
+	
 }

@@ -5,6 +5,10 @@
  *******************************************************************************/
 package com.syju.condition.repository.jpa;
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -62,8 +66,36 @@ public interface HotSortDao extends PagingAndSortingRepository<HotSort, Long>, J
 	@Modifying
 	@Query("update HotSort hs set hs.priority = hs.priority-1 where hs.priority > ?1")
 	int updateDownPriority(Long priority);
-	
-	//获取最大排序号
+
+	// 获取最大排序号
 	@Query("select MAX(priority) from HotSort ")
 	Long getMaxPriority();
+
+	// 通过外键查找
+	HotSort findByHouseInfoId(Long id);
+
+	@Modifying
+	@Query("delete from  HotSort sh  where sh.houseInfo.id = ?1")
+	int deleteByHouse(Long id);
+
+
+
+	/**
+	 * 关联外键查询
+	 * @param name
+	 * @param pageable
+	 * @return
+	 */
+	@Query("select s from HotSort s,HouseInfo h where s.houseInfo.id = h.id and h.name like ?1 ")
+	Page<HotSort> findHotSortAndHouse(String name, Pageable pageable);
+	
+	/**
+	 * 关联外键查询
+	 * @param name
+	 * @param pageable
+	 * @return
+	 */
+	@Query("select s from HotSort s,HouseInfo h where s.houseInfo.id = h.id")
+	List<HotSort> findHotSortAndHouse();
+
 }
