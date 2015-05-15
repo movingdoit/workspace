@@ -40,7 +40,7 @@ public class NewGuideController extends BaseController {
 
 		model.addAttribute("newGuides", newGuides);
 
-		return "commons/newGuide/newGuideList";
+		return "condition/newGuide/newGuideList";
 	}
 
 	/**

@@ -1,12 +1,10 @@
 package com.syju.condition.web;
 
 import java.text.ParseException;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springside.modules.web.Servlets;
 
@@ -44,59 +41,7 @@ public class FeatureHouseController extends BaseController {
 
 		model.addAttribute("featureHouses", featureHouses);
 
-		return "commons/featureHouse/featureHouseList";
-	}
-
-	// 创建框
-	@RequestMapping(value = "create", method = RequestMethod.GET)
-	public String createForm(Model model) {
-		model.addAttribute("featureHouse", new FeatureHouse());
-
-		model.addAttribute("action", "create");
-		return "bbs/forum/forumForm";
-	}
-
-	// 添加板块
-	@RequestMapping(value = "create", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, String> create(@Valid FeatureHouse FeatureHouse,
-			@RequestParam(value = "forumTitle", defaultValue = "") String forumTitle,
-			@RequestParam(value = "attrList", defaultValue = "") String fenlei[],
-			@RequestParam(value = "file", required = false) MultipartFile file,
-			@RequestParam(value = "paixu", defaultValue = "1") Long priority, HttpServletRequest request) {
-		// 定义返回json格式的Map数据
-		Map<String, String> resultMap = new HashMap<String, String>();
-		String code = "1111";
-		String message = "论坛名字已存在，请换个！";
-		resultMap.put("code", code);
-		resultMap.put("msg", message);
-
-		return resultMap;
-	}
-
-	// 创建修改会员信息框
-	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
-	public String updateForm(@PathVariable("id") Long id, Model model) {
-		FeatureHouse FeatureHouse = featureHouseService.getFeatureHouse(id);
-		model.addAttribute("featureHouse", FeatureHouse);
-
-		model.addAttribute("action", "update");
-		return "bbs/forum/forumForm";
-	}
-
-	// 修改会员信息框
-	@RequestMapping(value = "update", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, String> update(@Valid @ModelAttribute("featureHouse") FeatureHouse featureHouse,
-			@RequestParam(value = "paixu", defaultValue = "") Long priority, HttpServletRequest request) {
-		// 定义返回json格式的Map数据
-		Map<String, String> resultMap = new HashMap<String, String>();
-		String code = "1111";
-		String message = "修改失败，请重试！";
-		resultMap.put("code", code);
-		resultMap.put("msg", message);
-
-		return resultMap;
+		return "condition/featureHouse/featureHouseList";
 	}
 
 	/**
