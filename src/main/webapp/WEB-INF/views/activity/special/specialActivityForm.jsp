@@ -28,6 +28,9 @@
                 <div class="widget-box">
                     <div class="widget-title"> <span class="icon"> <i class="icon-edit"></i> </span>
                         <h5>添加专题活动</h5>
+                        <p style="margin: 0px;">
+                           <a class="btn" href="${ctx}/house/detail/create"><i class="icon-plus"></i>新增楼盘</a>
+                        </p>
                     </div>
                     <div class="widget-content nopadding">
                         <form id="J_addForm" action="#" method="post" class="form-horizontal form-validate"  enctype="multipart/form-data">
@@ -35,23 +38,23 @@
                             <div class="control-group">
                                 <label class="control-label"><i class="red">*</i> 活动标题 :</label>
                                 <div class="controls">
-                                	<input type="text" id="title" name="activityTitle"  value="${specialActivity.activityTitle}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="10" placeholder="最多10个字符"/>
+                                	<input type="text" id="title" name="activityTitle"  value="${specialActivity.activityTitle}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label"><i class="red">*</i> 选择模板 :</label>
                                 <div class="controls">
-                                    <select id="adType"  class="input-medium" onchange="chuangeAd()">
+                                    <select id="adType"  class="input-medium" onchange="chuangeAd()" data-rule-required="true">
                                         <option value="1" >模板一</option>
                                         <option value="2" >模板二</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label"> 活动封面 :</label>
+                                <label class="control-label"><i class="red">*</i> 活动封面 :</label>
                                 <div class="controls">
                                     <img src="${ctx}${specialActivity.activityImage}" class="default-slider" />
-                                    <input type="file" name="file" class="insertimage"/>
+                                    <input type="file" name="file" class="insertimage" />
                                 </div>
                             </div>
                             <div class="control-group">
@@ -89,34 +92,30 @@
 
 	var ue = UE.getEditor('container');
 	
-	// ajax方式提交form
-	$().ready(function() {
-		$("#J_addForm").ajaxForm({
-			dataType : "json"
-		});
-	});
-	
 	// 保存
 	$('#save').click(function(){
 		$("#J_addForm").attr("action","${ctx}/activity/specialActivity/${action}");
-		$("#J_addForm").ajaxSubmit(
-				function(data) {
-		        	if(data){
-		        		if('0000' == data.code){
-		        			// $('#message').text("保存成功");
-			            	alert(data.msg);
-			            	location.href = "${ctx}/activity/specialActivity/list";
-		        		}else if('1111' == data.code){
-		        			// $('#message').text("您的操作超时，请重试！");
-			            	alert(data.msg);
-		        		}else {
-		        			// $('#message').text(data.msg);
-			            	alert(data.msg);
-		        		}
-		        	}else{
-		            	alert("操作异常，请重试。");
-		        	}
-		        });
+		if(($("#J_addForm").valid())){
+			
+			$("#J_addForm").ajaxSubmit(
+					function(data) {
+			        	if(data){
+			        		if('0000' == data.code){
+			        			// $('#message').text("保存成功");
+				            	alert(data.msg);
+				            	location.href = "${ctx}/activity/specialActivity/list";
+			        		}else if('1111' == data.code){
+			        			// $('#message').text("您的操作超时，请重试！");
+				            	alert(data.msg);
+			        		}else {
+			        			// $('#message').text(data.msg);
+				            	alert(data.msg);
+			        		}
+			        	}else{
+			            	alert("操作异常，请重试。");
+			        	}
+			        });
+		}
 	});
     
 </script>

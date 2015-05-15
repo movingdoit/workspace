@@ -7,7 +7,7 @@
 
 <html>
 <head>
-	<title>添加首页广告</title>
+	<title>添加广告</title>
 </head>
 <body>
 
@@ -15,7 +15,7 @@
 <div id="content">
     <!-- Breadcrumbs -->
     <div id="content-header">
-        <h1><i class="icon-edit"></i> 添加首页广告</h1>
+        <h1><i class="icon-edit"></i> 添加广告</h1>
     </div>
     <!-- // Breadcrumbs -->
     <!-- Action Boxes -->
@@ -25,7 +25,10 @@
             <div class="span12">
                 <div class="widget-box">
                     <div class="widget-title"> <span class="icon"> <i class="icon-edit"></i> </span>
-                        <h5>添加首页广告</h5>
+                    	<h5>添加广告</h5>
+                    	<p style="margin: 0px;">
+                           <a class="btn" href="${ctx}/ad/list"><i class="icon-plus"></i>广告列表</a>
+                        </p>
                     </div>
                     <div class="widget-content nopadding">
                         <form id="J_addForm" action="#" method="post" class="form-horizontal form-validate"  enctype="multipart/form-data">
@@ -33,7 +36,7 @@
                             <div class="control-group">
                                 <label class="control-label"><i class="red">*</i> 广告名称 :</label>
                                 <div class="controls">
-                                	<input type="text" id="title" name="title"  value="${ad.title}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="10" placeholder="最多10个字符"/>
+                                	<input type="text" id="title" name="title"  value="${ad.title}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="15" placeholder="最多15个字符"/>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -176,24 +179,23 @@
 	// 保存
 	$('#save').click(function(){
 		$("#J_addForm").attr("action","${ctx}/ad/${action}");
-		$("#J_addForm").ajaxSubmit(
-				function(data) {
-		        	if(data){
-		        		if('0000' == data.code){
-		        			// $('#message').text("保存成功");
-			            	alert(data.msg);
-			            	location.href = "${ctx}/ad/list";
-		        		}else if('1111' == data.code){
-		        			// $('#message').text("您的操作超时，请重试！");
-			            	alert(data.msg);
-		        		}else {
-		        			// $('#message').text(data.msg);
-			            	alert(data.msg);
-		        		}
-		        	}else{
-		            	alert("操作异常，请重试。");
-		        	}
-		        });
+		if(($("#J_addForm").valid())){
+				$("#J_addForm").ajaxSubmit(
+						function(data) {
+				        	if(data){
+				        		if('0000' == data.code){
+					            	alert(data.msg);
+					            	location.href = "${ctx}/ad/list";
+				        		}else if('1111' == data.code){
+					            	alert(data.msg);
+				        		}else {
+					            	alert(data.msg);
+				        		}
+				        	}else{
+				            	alert("操作异常，请重试。");
+				        	}
+				        });
+		}
 	});
     
 </script>
