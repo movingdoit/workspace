@@ -21,36 +21,34 @@ import org.springside.modules.persistence.DynamicSpecifications;
 import org.springside.modules.persistence.SearchFilter;
 import org.springside.modules.persistence.SearchFilter.Operator;
 
-import com.syju.activity.special.entity.SpecialActivity;
-import com.syju.activity.special.repository.jpa.SpecialActivityDao;
+import com.syju.activity.special.entity.SpecialRecord;
+import com.syju.activity.special.repository.jpa.SpecialRecordDao;
 import com.syju.commons.service.CommonService;
 
 /**
- * 楼盘活动-专题活动业务类
+ * 楼盘活动-专题报名记录业务类
  * 
  * @author zcm
  */
 // Spring Service Bean的标识.
-@Service("SpecialActivity")
+@Service("SpecialRecord")
 @Transactional
 @Monitored
-public class SpecialActivityService extends CommonService {
+public class SpecialRecordService extends CommonService {
 
-	// @Resource
-	// private SiteConfigDao siteConfigDao;
 	@Resource
-	private SpecialActivityDao specialActivityDao;
+	private SpecialRecordDao specialRecordDao;
 
-	public SpecialActivity getSpecialActivity(Long id) {
-		return specialActivityDao.findOne(id);
+	public SpecialRecord getSpecialRecord(Long id) {
+		return specialRecordDao.findOne(id);
 	}
 
-	public void saveSpecialActivity(SpecialActivity specialActivity) {
-		specialActivityDao.save(specialActivity);
+	public void saveSpecialRecord(SpecialRecord specialActivity) {
+		specialRecordDao.save(specialActivity);
 	}
 
-	public void deleteSpecialActivity(Long id) {
-		specialActivityDao.delete(id);
+	public void deleteSpecialRecord(Long id) {
+		specialRecordDao.delete(id);
 	}
 
 	/**
@@ -63,12 +61,12 @@ public class SpecialActivityService extends CommonService {
 	 * @param sortType
 	 * @return
 	 */
-	public Page<SpecialActivity> getSpecialActivity(Map<String, Object> searchParams, int pageNumber, int pageSize,
+	public Page<SpecialRecord> getSpecialRecord(Map<String, Object> searchParams, int pageNumber, int pageSize,
 			String sortType) {
-		Specification<SpecialActivity> spec = null;
+		Specification<SpecialRecord> spec = null;
 		PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, sortType);
 
-		return specialActivityDao.findAll(spec, pageRequest);
+		return specialRecordDao.findAll(spec, pageRequest);
 	}
 
 	/**
@@ -88,11 +86,10 @@ public class SpecialActivityService extends CommonService {
 	/**
 	 * 创建动态查询条件组合.
 	 */
-	private Specification<SpecialActivity> buildSpecification(Long siteId, Map<String, Object> searchParams) {
+	private Specification<SpecialRecord> buildSpecification(Long siteId, Map<String, Object> searchParams) {
 		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
 		filters.put("siteConfig.id", new SearchFilter("siteConfig.id", Operator.EQ, siteId));
-		Specification<SpecialActivity> spec = DynamicSpecifications.bySearchFilter(filters.values(),
-				SpecialActivity.class);
+		Specification<SpecialRecord> spec = DynamicSpecifications.bySearchFilter(filters.values(), SpecialRecord.class);
 		return spec;
 	}
 

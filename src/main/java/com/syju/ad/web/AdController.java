@@ -129,7 +129,7 @@ public class AdController extends BaseController {
 				ad.setCreateTime(new Timestamp(System.currentTimeMillis()));
 				adService.saveAd(ad);
 				code = "0000";
-				message = "保存成功";
+				message = "修改成功";
 
 			} catch (Exception e) {
 				e.printStackTrace();
