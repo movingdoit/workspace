@@ -34,9 +34,10 @@ public class SpecialRecordController extends BaseController {
 			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
 			HttpServletRequest request) throws ParseException {
 		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
-		Page<SpecialRecord> specialRecords = specialRecordService.getSpecialRecord(searchParams, pageNumber, pageSize,
-				sortType);
-
+		// Page<SpecialRecord> specialRecords = specialRecordService.getSpecialRecord(searchParams, pageNumber,
+		// pageSize,
+		// sortType);
+		Page<SpecialRecord> specialRecords = specialRecordService.getSpecialRecords(pageNumber, pageSize, sortType);
 		model.addAttribute("specialRecords", specialRecords);
 
 		return "activity/special/specialRecordList";

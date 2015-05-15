@@ -8,6 +8,9 @@ package com.syju.activity.special.entity;
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -29,22 +32,23 @@ public class SpecialRecord extends IdEntity {
 
 	private String mobile; // 手机号
 	private Timestamp joinDate; // 登记时间
-	private String activityId;// 活动类型ID
 	private String activityType;// 活动类型
 	private String name;// 用户姓名
 
+	private SpecialActivity specialActivity;// 用户姓名
+
 	// -----------------关系配置---------------
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "activity_id")
+	public SpecialActivity getSpecialActivity() {
+		return specialActivity;
+	}
+
+	public void setSpecialActivity(SpecialActivity specialActivity) {
+		this.specialActivity = specialActivity;
+	}
 
 	// -----------------end-----------------
-
-	public String getActivityId() {
-		return activityId;
-	}
-
-	public void setActivityId(String activityId) {
-		this.activityId = activityId;
-	}
-
 	public String getName() {
 		return name;
 	}

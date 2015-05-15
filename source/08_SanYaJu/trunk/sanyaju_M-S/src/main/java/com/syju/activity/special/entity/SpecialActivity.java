@@ -6,11 +6,14 @@
 package com.syju.activity.special.entity;
 
 import java.sql.Timestamp;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -38,7 +41,10 @@ public class SpecialActivity extends IdEntity {
 	private Integer joinLimit; // 报名人数上限
 	private String activityImage; // 专题活动图片
 
+	// many to one
 	private HouseInfo houseInfo;// 楼盘信息-id(关系映射)
+
+	private List<SpecialRecord> specialRecord;// 楼盘信息-id(关系映射)
 
 	// -----------------关系配置---------------
 	// JPA 基于site_id列的多对一关系定义
@@ -50,6 +56,15 @@ public class SpecialActivity extends IdEntity {
 
 	public void setHouseInfo(HouseInfo houseInfo) {
 		this.houseInfo = houseInfo;
+	}
+
+	@OneToMany(mappedBy = "specialActivity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	public List<SpecialRecord> getSpecialRecord() {
+		return specialRecord;
+	}
+
+	public void setSpecialRecord(List<SpecialRecord> specialRecord) {
+		this.specialRecord = specialRecord;
 	}
 
 	// -----------------end-----------------
