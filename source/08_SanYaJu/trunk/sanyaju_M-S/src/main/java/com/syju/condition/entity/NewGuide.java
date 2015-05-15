@@ -3,7 +3,7 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  *******************************************************************************/
-package com.syju.ad.entity;
+package com.syju.condition.entity;
 
 import java.sql.Timestamp;
 
@@ -21,28 +21,20 @@ import com.syju.commons.entity.IdEntity;
 import com.syju.house.entity.HouseInfo;
 
 /**
- * 用户.
+ * 新盘导购-实体类（关系映射）
  * 
- * @author 王德仁
+ * @author zcm
  */
 @Entity
-@Table(name = "syj_ad")
+@Table(name = "tj_newguide")
 // 默认的缓存策略.
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Ad extends IdEntity {
+public class NewGuide extends IdEntity {
 
-	private String position;
-	private String content;
-	private String imageAddr;
-	private Integer adType;
+	private Long priority;// 排序号
+	private Timestamp createTime;// 创建时间
 
-	private String forwardAddr;
-	private String title;
-	private Long priority;
-	private Boolean isDisplay;
-	private Timestamp createTime;
-
-	private HouseInfo houseInfo;
+	private HouseInfo houseInfo;// 楼盘信息-id(关系映射)
 
 	// -----------------关系配置---------------
 	// JPA 基于site_id列的多对一关系定义
@@ -58,68 +50,12 @@ public class Ad extends IdEntity {
 
 	// -----------------end-----------------
 
-	public String getPosition() {
-		return position;
-	}
-
-	public void setPosition(String position) {
-		this.position = position;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public String getImageAddr() {
-		return imageAddr;
-	}
-
-	public void setImageAddr(String imageAddr) {
-		this.imageAddr = imageAddr;
-	}
-
-	public String getForwardAddr() {
-		return forwardAddr;
-	}
-
-	public void setForwardAddr(String forwardAddr) {
-		this.forwardAddr = forwardAddr;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
 	public Long getPriority() {
 		return priority;
 	}
 
 	public void setPriority(Long priority) {
 		this.priority = priority;
-	}
-
-	public Boolean getIsDisplay() {
-		return isDisplay;
-	}
-
-	public Integer getAdType() {
-		return adType;
-	}
-
-	public void setAdType(Integer adType) {
-		this.adType = adType;
-	}
-
-	public void setIsDisplay(Boolean isDisplay) {
-		this.isDisplay = isDisplay;
 	}
 
 	public Timestamp getCreateTime() {
