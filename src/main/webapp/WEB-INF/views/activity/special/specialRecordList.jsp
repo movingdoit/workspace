@@ -33,7 +33,6 @@
                             	<th>用户姓名</th>
                                 <th>手机号码</th>
 		                        <th>登记时间</th>
-		                        <th>活动类型</th>
 		                        <!-- <th>操作</th> -->
                             </tr>
                             </thead>
@@ -44,7 +43,6 @@
 										<td>${Item.name}</td>
 										<td>${Item.mobile}</td>
 										<td><fmt:formatDate value="${Item.joinDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-										<td>${Item.activityType}</td>
 										<%-- <td>
 											<shiro:hasPermission name="user:edit">
 												<a href="${ctx}/ad/update/${Item.id}" class="btn btn-mini">编辑</a>
