@@ -57,11 +57,11 @@
 	            </ul>
 	        </li>
 	        
-	         <li class="submenu ${fn:contains(url, '/ams/vote') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>专题活动管理</span> <span class="label"> > </span></a>
+	         <li class="submenu ${fn:contains(url, '/activity/special') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>专题活动管理</span> <span class="label"> > </span></a>
  	            <ul>
-	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">专题活动列表</a></li>
-	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">添加专题</a></li>
-	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">专题报名记录</a></li>
+	                <li ${(fn:contains(url, '/activity/specialActivity/list')) ? 'class="active"' : ''}><a href="${ctx}/activity/specialActivity/list">专题活动列表</a></li>
+	                <li ${(fn:contains(url, '/activity/specialActivity/create')) ? 'class="active"' : ''}><a href="${ctx}/activity/specialActivity/create">添加专题</a></li>
+	                <li ${(fn:contains(url, '/activity/specialRecord/list')) ? 'class="active"' : ''}><a href="${ctx}/activity/specialRecord/list">专题报名记录</a></li>
 	            </ul>
 	        </li>
     	  
