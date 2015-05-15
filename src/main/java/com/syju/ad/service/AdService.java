@@ -5,7 +5,6 @@
  *******************************************************************************/
 package com.syju.ad.service;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -37,8 +36,6 @@ import com.syju.commons.service.CommonService;
 @Monitored
 public class AdService extends CommonService {
 
-	// @Resource
-	// private SiteConfigDao siteConfigDao;
 	@Resource
 	private AdDao adDao;
 
@@ -54,52 +51,6 @@ public class AdService extends CommonService {
 		adDao.delete(id);
 	}
 
-	// 验证排序号是否存在
-	public List<Ad> checkPriority(Long priority) {
-		List<Ad> siteSlideList = adDao.findByPriority(priority);
-		return siteSlideList;
-	}
-
-	/**
-	 * <p>
-	 * 排序，可以输入排序号，进行排序
-	 * </p>
-	 * 
-	 * @param oldPriority //旧的排序号
-	 * @param newPriority //新的排序号
-	 */
-	public void sorting(Long oldPriority, Long newPriority) {
-		if (oldPriority > newPriority) {
-			adDao.updateDESCPriority(oldPriority, newPriority);
-		} else if (oldPriority < newPriority) {
-			adDao.updateASCPriority(oldPriority, newPriority);
-		}
-	}
-
-	/**
-	 * <p>
-	 * 创建轮播图时，插入排序号，排序
-	 * </p>
-	 * 
-	 * @param priority
-	 * 
-	 */
-	public void insertSorting(Long priority) {
-		adDao.updateInsertPriority(priority);
-	}
-
-	/**
-	 * <p>
-	 * 删除轮播图时，它后面的排序号都减1
-	 * </p>
-	 * 
-	 * @param priority
-	 * 
-	 */
-	public void moveSorting(Long priority) {
-		adDao.updateMovePriority(priority);
-	}
-
 	/**
 	 * 根据用户Id获取当前站点的幻灯片列表
 	 *
@@ -110,7 +61,7 @@ public class AdService extends CommonService {
 	 * @param sortType
 	 * @return
 	 */
-	public Page<Ad> getAd(Long userId, Map<String, Object> searchParams, int pageNumber, int pageSize, String sortType) {
+	public Page<Ad> getAd(Map<String, Object> searchParams, int pageNumber, int pageSize, String sortType) {
 		Specification<Ad> spec = null;
 		PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, sortType);
 
@@ -123,7 +74,7 @@ public class AdService extends CommonService {
 	private PageRequest buildPageRequest(int pageNumber, int pagzSize, String sortType) {
 		Sort sort = null;
 		if ("auto".equals(sortType)) {
-			sort = new Sort(Direction.ASC, "priority");
+			sort = new Sort(Direction.ASC, "id");
 		} else if ("slideTitle".equals(sortType)) {
 			sort = new Sort(Direction.DESC, "slideTitle");
 		}
