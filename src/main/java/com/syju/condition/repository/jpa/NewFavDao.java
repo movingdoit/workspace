@@ -5,11 +5,16 @@
  *******************************************************************************/
 package com.syju.condition.repository.jpa;
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import com.syju.condition.entity.HotSort;
 import com.syju.condition.entity.NewFav;
 
 public interface NewFavDao extends PagingAndSortingRepository<NewFav, Long>, JpaSpecificationExecutor<NewFav> {
@@ -62,9 +67,27 @@ public interface NewFavDao extends PagingAndSortingRepository<NewFav, Long>, Jpa
 	@Modifying
 	@Query("update NewFav nf set nf.priority = nf.priority-1 where nf.priority > ?1")
 	int updateDownPriority(Long priority);
-	
-	//获取最大排序号
+
+	// 获取最大排序号
 	@Query("select MAX(priority) from NewFav ")
 	Long getMaxPriority();
-	
+
+	// 通过外键查找
+	NewFav findByHouseInfoId(Long id);
+
+	@Modifying
+	@Query("delete from  NewFav sh  where sh.houseInfo.id = ?1")
+	int deleteByHouse(Long id);
+
+	@Query("select s from NewFav s,HouseInfo h where s.houseInfo.id = h.id and h.name like ?1 ")
+	Page<NewFav> findNewFavAndHouse(String name, Pageable pageable);
+
+	/**
+	 * 关联外键查询
+	 * @param name
+	 * @param pageable
+	 * @return
+	 */
+	@Query("select s from NewFav s,HouseInfo h where s.houseInfo = h")
+	List<NewFav> findNewFavAndHouse();
 }
