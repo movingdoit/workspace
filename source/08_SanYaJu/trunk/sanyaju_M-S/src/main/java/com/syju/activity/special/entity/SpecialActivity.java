@@ -36,6 +36,7 @@ public class SpecialActivity extends IdEntity {
 	private String content;// 活动信息
 	private String activityTitle; // 活动标题
 	private Integer joinLimit; // 报名人数上限
+	private String activityImage; // 专题活动图片
 
 	private HouseInfo houseInfo;// 楼盘信息-id(关系映射)
 
@@ -90,6 +91,14 @@ public class SpecialActivity extends IdEntity {
 
 	public void setJoinLimit(Integer joinLimit) {
 		this.joinLimit = joinLimit;
+	}
+
+	public String getActivityImage() {
+		return activityImage;
+	}
+
+	public void setActivityImage(String activityImage) {
+		this.activityImage = activityImage;
 	}
 
 	@Override
