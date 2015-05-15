@@ -145,20 +145,23 @@
 			$('#newsAd').hide();
 	    	$('#newsAd').attr("disabled","disabled");//将input元素设置为disabled
 	    	$('#homeAd').show();
+	    	$('#homeAd').removeAttr("disabled");
 	     }
 		if(value == 2 || value == 3 || value == 4){
 			$('#homeAd').hide();
 			$('#homeAd').attr("disabled","disabled");//将input元素设置为disabled
 			$('#newsAd').hide();
 			$('#newsAd').attr("disabled","disabled");//将input元素设置为disabled
-			$('#searchAd').show(); 	 
+			$('#searchAd').show();
+			$('#searchAd').removeAttr("disabled");
 	     }
 		if(value == 5){
 			$('#searchAd').hide();
 			$('#searchAd').attr("disabled","disabled");//将input元素设置为disabled
 			$('#homeAd').hide();
 			$('#homeAd').attr("disabled","disabled");//将input元素设置为disabled
-			$('#newsAd').show(); 	
+			$('#newsAd').show();
+			$('#newsAd').removeAttr("disabled");
 		}
 	}
 
