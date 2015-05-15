@@ -70,6 +70,22 @@ public class SpecialRecordService extends CommonService {
 	}
 
 	/**
+	 * 根据用户Id获取当前站点的幻灯片列表
+	 *
+	 * @param userId
+	 * @param searchParams
+	 * @param pageNumber
+	 * @param pageSize
+	 * @param sortType
+	 * @return
+	 */
+	public Page<SpecialRecord> getSpecialRecords(int pageNumber, int pageSize, String sortType) {
+		PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, sortType);
+		Page<SpecialRecord> specialRecords = specialRecordDao.findSpecialRecords(pageRequest);
+		return specialRecords;
+	}
+
+	/**
 	 * 创建分页请求.
 	 */
 	private PageRequest buildPageRequest(int pageNumber, int pagzSize, String sortType) {
