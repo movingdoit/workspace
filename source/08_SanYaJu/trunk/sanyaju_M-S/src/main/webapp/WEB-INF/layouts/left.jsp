@@ -46,13 +46,14 @@
 	            </ul>
 	        </li>
 	        
-	         <li class="submenu ${fn:contains(url, '/ad/vote') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>广告管理</span> <span class="label"> > </span></a>
+	         <li class="submenu ${fn:contains(url, '/ad') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>广告管理</span> <span class="label"> > </span></a>
  	            <ul>
-	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">首页广告</a></li>
-	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">楼盘展示页广告</a></li>
+ 	            	<li ${(fn:contains(url, '/ad/list')) ? 'class="active"' : ''}><a href="${ctx}/ad/list">广告列表</a></li>
+	                <li ${(fn:contains(url, '/ad/create')) ? 'class="active"' : ''}><a href="${ctx}/ad/create">添加广告</a></li>
+	                <%-- <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">楼盘展示页广告</a></li>
 	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">特价楼盘页广告</a></li>
 	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">搜索页广告</a></li>
-	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">新闻咨询页广告</a></li>
+	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">新闻咨询页广告</a></li> --%>
 	            </ul>
 	        </li>
 	        
@@ -76,15 +77,15 @@
 	            </ul>
 	        </li>
 	        
-	        <li class="submenu ${fn:contains(url, '/ams/vote') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>楼盘推荐管理</span> <span class="label"> > </span></a>
+	        <li class="submenu ${fn:contains(url, '/houseRecommend') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>楼盘推荐管理</span> <span class="label"> > </span></a>
  	            <ul>
-	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">楼盘推荐列表</a></li>
+	                <li ${(fn:contains(url, '/houseRecommend/list')) ? 'class="active"' : ''}><a href="${ctx}/houseRecommend/list">楼盘推荐列表</a></li>
 	            </ul>
 	        </li>
 	        
-	        <li class="submenu ${fn:contains(url, '/ams/vote') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>新盘导购管理</span> <span class="label"> > </span></a>
+	        <li class="submenu ${fn:contains(url, '/newGuide') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>新盘导购管理</span> <span class="label"> > </span></a>
  	            <ul>
-	                <li ${(fn:contains(url, '/ams/vote') && !fn:contains(url, '/ams/vote/activity/create')) ? 'class="active"' : ''}><a href="${ctx}/ams/vote/activity">新盘导购列表</a></li>
+	                <li ${(fn:contains(url, '/newGuide/list')) ? 'class="active"' : ''}><a href="${ctx}/newGuide/list">新盘导购列表</a></li>
 	            </ul>
 	        </li>
 	        
