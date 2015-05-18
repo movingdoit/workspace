@@ -81,6 +81,16 @@ public class DictType {
 		return map;
 	}
 	
+	/* 楼盘户型图片分类*/
+	public static Map<Integer, String> getHouseTypePhoto() {
+		Map<Integer, String> map = new HashMap<Integer, String>();
+		map.put(1, "一户型");
+		map.put(2, "二户型");
+		map.put(3, "三户型");
+		map.put(4, "其他");
+		return map;
+	}
+	
 	/* 团购类型*/
 	public static Map<Integer, String> getActivityType() {
 		Map<Integer, String> map = new HashMap<Integer, String>();
