@@ -17,6 +17,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.syju.activity.group.entity.GroupActivity;
 import com.syju.commons.entity.IdEntity;
 
 /**
@@ -36,12 +37,29 @@ public class SpecialRecord extends IdEntity {
 	private String name;// 用户姓名
 
 	private SpecialActivity specialActivity;// 用户姓名
+	
+	private GroupActivity groupActivity; //团购活动-用户映射
 
 	// -----------------关系配置---------------
+	
+	
+	
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "activity_id")
 	public SpecialActivity getSpecialActivity() {
 		return specialActivity;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "group_id")
+	public GroupActivity getGroupActivity() {
+		return groupActivity;
+	}
+
+	
+	public void setGroupActivity(GroupActivity groupActivity) {
+		this.groupActivity = groupActivity;
 	}
 
 	public void setSpecialActivity(SpecialActivity specialActivity) {
