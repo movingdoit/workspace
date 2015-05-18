@@ -16,33 +16,45 @@
 <div id="sidebar">
     <ul>
     	<shiro:hasRole name="User">
-    		<li class="submenu ${fn:contains(url, '/bbs/slide') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>轮播图管理</span> <span class="label"> > </span></a>
+    		<li class="submenu ${fn:contains(url, '/house/detail') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>房源管理</span> <span class="label"> > </span></a>
  	            <ul>
-	                <li ${(fn:contains(url, '/bbs/slide/list')) ? 'class="active"' : ''}><a href="${ctx}/bbs/slide/list">轮播图列表</a></li>
-	                <li ${fn:contains(url, '/bbs/slide/create') || fn:contains(url, '/slide/update') ? 'class="active"' : ''}><a href="${ctx}/bbs/slide/create">新增轮播图</a></li>
+	                <li ${(fn:contains(url, '/house/detail/create')) ? 'class="active"' : ''}><a href="${ctx}/house/detail/create">楼盘详情</a></li>
+	                <li ${ fn:contains(url, '/house/photo/create') ? 'class="active"' : ''}><a href="${ctx}/house/photo/create">楼盘相册</a></li>
+	                <li ${ fn:contains(url, '/house/phototype/create') ? 'class="active"' : ''}><a href="${ctx}/house/phototype/create">楼盘户型</a></li>
 	            </ul>
 	        </li>
 	        
-    		<li class="submenu ${fn:contains(url, '/bbs/forum') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>版块管理</span> <span class="label"> > </span></a>
- 	            <ul>
-	                <li ${(fn:contains(url, '/bbs/forum/list')) ? 'class="active"' : ''}><a href="${ctx}/bbs/forum/list">版块列表</a></li>
-	                <li ${fn:contains(url, '/bbs/forum/create') ? 'class="active"' : ''}><a href="${ctx}/bbs/forum/create">新建版块</a></li>
-	            </ul>
-	        </li>
-	    	<li class="submenu ${(fn:contains(url, '/bbs/topic') || fn:contains(url, '/bbs/report') || fn:contains(url, '/bbs/post')) ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>话题管理</span> <span class="label"> > </span></a>
- 	            <ul>
-	                <li ${(fn:contains(url, '/bbs/topic/list') || fn:contains(url, '/bbs/post/list')) ? 'class="active"' : ''}><a href="${ctx}/bbs/topic/list">话题列表</a></li>
-	                <li ${fn:contains(url, '/bbs/report/untreated') || fn:contains(url, '/bbs/report/handle') ? 'class="active"' : ''}><a href="${ctx}/bbs/report/untreated">举报处理</a></li>
+	        
+	        <li class="submenu ${((fn:contains(url, '/article/manager') || fn:contains(url, '/article/detail') || fn:contains(url, '/article/category'))
+	                   && !fn:contains(parameters, 'custom=1')) ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i>
+	             <span>文章管理</span> <span class="label"> > </span></a>
+
+	            <ul>
+	                <li ${(null != url && fn:contains(url, '/article/manager')) ? 'class="active"' : '' }>
+		                <a href="/article/manager">新闻列表</a> 
+		            </li>
+		            <li ${(null != url && fn:contains(url, '/article/detail')) ? 'class="active"' : '' }>
+		                <a href="/article/detail/create">新闻发布</a>
+		            </li>
+		             <li ${(null != url && fn:contains(url, '/article/category')) ? 'class="active"' : '' }>
+		                <a href="/article/category">新闻分类</a>
+		            </li>
 	            </ul>
 	        </li>
 	        
-	        <li class="submenu ${fn:contains(url, '/member') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>会员管理</span> <span class="label"> > </span></a>
+	        <li class="submenu ${fn:contains(url, '/activity/special') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>专题活动管理</span> <span class="label"> > </span></a>
  	            <ul>
-	                <li ${(fn:contains(url, '/member/list')) ? 'class="active"' : ''}><a href="${ctx}/member/list">会员列表</a></li>
-	                <li ${(fn:contains(url, '/member/create')) ? 'class="active"' : ''}><a href="${ctx}/member/create">添加会员</a></li>
-	                <li ${fn:contains(url, '/member/grade/list') ? 'class="active"' : ''}><a href="${ctx}/member/grade/list">会员等级列表</a></li>
-	                <li ${fn:contains(url, '/member/grade/create') ? 'class="active"' : ''}><a href="${ctx}/member/grade/create">添加会员等级</a></li>
-	                <%-- <li ${(fn:contains(url, '/member/record/untreated') || fn:contains(url, '/member/handle/record') || fn:contains(url, '/member/data/') || fn:contains(url, '/member/info/') || fn:contains(url, '/member/address/')) ? 'class="active"' : ''}><a href="${ctx}/member/record/untreated">会员申请记录</a></li> --%>
+	                <li ${(fn:contains(url, '/activity/specialActivity/list')) ? 'class="active"' : ''}><a href="${ctx}/activity/specialActivity/list">专题活动列表</a></li>
+	                <li ${(fn:contains(url, '/activity/specialActivity/create')) ? 'class="active"' : ''}><a href="${ctx}/activity/specialActivity/create">添加专题</a></li>
+	                <li ${(fn:contains(url, '/activity/specialRecord/list')) ? 'class="active"' : ''}><a href="${ctx}/activity/specialRecord/list">专题报名记录</a></li>
+	            </ul>
+	        </li>
+	        
+	        <li class="submenu ${fn:contains(url, '/activity/group') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>团购活动管理</span> <span class="label"> > </span></a>
+ 	            <ul>
+	                <li ${(fn:contains(url, '/activity/group/search')) ? 'class="active"' : ''}><a href="${ctx}/activity/group/search">团购活动列表</a></li>
+	                <li ${(fn:contains(url, '/activity/group/create')) ? 'class="active"' : ''}><a href="${ctx}/activity/group/create">添加团购</a></li>
+	                <li ${(fn:contains(url, '/activity/groupRecord/search')) ? 'class="active"' : ''}><a href="${ctx}/activity/groupRecord/search">团购报名记录</a></li>
 	            </ul>
 	        </li>
 	        
@@ -57,14 +69,12 @@
 	            </ul>
 	        </li>
 	        
-	         <li class="submenu ${fn:contains(url, '/activity/special') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>专题活动管理</span> <span class="label"> > </span></a>
+	        <li class="submenu ${fn:contains(url, '/activity/groupRecommend') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>团购推荐管理</span> <span class="label"> > </span></a>
  	            <ul>
-	                <li ${(fn:contains(url, '/activity/specialActivity/list')) ? 'class="active"' : ''}><a href="${ctx}/activity/specialActivity/list">专题活动列表</a></li>
-	                <li ${(fn:contains(url, '/activity/specialActivity/create')) ? 'class="active"' : ''}><a href="${ctx}/activity/specialActivity/create">添加专题</a></li>
-	                <li ${(fn:contains(url, '/activity/specialRecord/list')) ? 'class="active"' : ''}><a href="${ctx}/activity/specialRecord/list">专题报名记录</a></li>
+	                <li ${(fn:contains(url, '/activity/groupRecommend/list')) ? 'class="active"' : ''}><a href="${ctx}/activity/groupRecommend/list">团购推荐列表</a></li>
 	            </ul>
 	        </li>
-    	  
+	        
 	        <li class="submenu ${fn:contains(url, '/specialHouse') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>特价楼盘管理</span> <span class="label"> > </span></a>
  	            <ul>
 	                <li ${(fn:contains(url, '/specialHouse/list')) ? 'class="active"' : ''}><a href="${ctx}/specialHouse/list">特价楼盘列表</a></li>
