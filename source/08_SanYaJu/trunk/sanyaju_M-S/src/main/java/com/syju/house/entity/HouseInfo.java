@@ -66,12 +66,36 @@ public class HouseInfo extends IdEntity implements Serializable {
 
 	private String coversPic;
 
+	private boolean isDisplay;
+
 	/* 辅助字段 */
 	private BuildInfo build;
 
 	private PropertyInfo property;
 
 	private HouseInfo houseInfo;
+
+	private HouseRim houseRim;
+
+	private HouseMap houseMap;
+
+	@Transient
+	public HouseMap getHouseMap() {
+		return houseMap;
+	}
+
+	public void setHouseMap(HouseMap houseMap) {
+		this.houseMap = houseMap;
+	}
+
+	@Transient
+	public HouseRim getHouseRim() {
+		return houseRim;
+	}
+
+	public void setHouseRim(HouseRim houseRim) {
+		this.houseRim = houseRim;
+	}
 
 	@Transient
 	public HouseInfo getHouseInfo() {
@@ -258,6 +282,14 @@ public class HouseInfo extends IdEntity implements Serializable {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	public boolean getIsDisplay() {
+		return isDisplay;
+	}
+
+	public void setIsDisplay(boolean isDisplay) {
+		this.isDisplay = isDisplay;
 	}
 
 }
