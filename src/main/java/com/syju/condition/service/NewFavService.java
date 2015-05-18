@@ -173,6 +173,8 @@ public class NewFavService extends CommonService {
 		Long index = newFavDao.getMaxPriority();
 		if (index == null) {
 			return 1L;
+		}else{
+			index=index+1;
 		}
 		return index;
 	}

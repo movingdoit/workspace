@@ -174,6 +174,8 @@ public class SpecialHouseService extends CommonService {
 		Long index = specialHouseServiceDao.getMaxPriority();
 		if (index == null) {
 			return 1L;
+		}else{
+			index=index+1;
 		}
 		return index;
 	}

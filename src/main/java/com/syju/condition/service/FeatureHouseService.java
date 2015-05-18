@@ -178,6 +178,8 @@ public class FeatureHouseService extends CommonService {
 		Long index = featureHouseDao.getMaxPriority();
 		if (index == null) {
 			return 1L;
+		}else{
+			index=index+1;
 		}
 		return index;
 	}

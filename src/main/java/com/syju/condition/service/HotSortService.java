@@ -177,6 +177,8 @@ public class HotSortService extends CommonService {
 		Long index = hotSortDao.getMaxPriority();
 		if (index == null) {
 			return 1L;
+		}else{
+			index=index+1;
 		}
 		return index;
 	}
