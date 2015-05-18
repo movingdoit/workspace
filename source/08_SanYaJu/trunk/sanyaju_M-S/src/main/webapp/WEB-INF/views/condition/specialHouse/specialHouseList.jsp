@@ -43,8 +43,8 @@
                             </tr>
                             </thead>
                             <tbody id="proList">
-                            <c:if test="${not empty siteSlides && siteSlides.size>0}">
-	                            <c:forEach items="${siteSlides.content}" var="Item">
+                            <c:if test="${not empty specialHouses && specialHouses.size>0}">
+	                            <c:forEach items="${specialHouses.content}" var="Item">
 									<tr>
 										<td>${Item.houseInfo.name}</td>
 										<td>${Item.houseInfo.houseType}</td>
@@ -68,15 +68,15 @@
 									</tr>
 								</c:forEach>
 							</c:if>
-							<c:if test="${empty siteSlides || siteSlides.totalPages == 0 }">
+							<c:if test="${empty specialHouses || specialHouses.totalPages == 0 }">
 								<tr>
 		                            <td colspan="10" class="text-center"><strong>没有任何信息 *_*</strong></td>
 		                        </tr>
 							</c:if>
                             </tbody>
                         </table>
-                         <c:if test="${not empty siteSlides && siteSlides.totalPages >1 }">
-                        	<tags:pagination page="${siteSlides}" paginationSize="10"/>
+                         <c:if test="${not empty specialHouses && specialHouses.totalPages >1 }">
+                        	<tags:pagination page="${specialHouses}" paginationSize="10"/>
                         </c:if>
                 </div>
             </div>
