@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import com.syju.activity.group.entity.GroupActivity;
 import com.syju.activity.special.entity.SpecialRecord;
 
 public interface SpecialRecordDao extends PagingAndSortingRepository<SpecialRecord, Long>,
@@ -25,5 +26,23 @@ public interface SpecialRecordDao extends PagingAndSortingRepository<SpecialReco
 	 */
 	@Query("select sr from SpecialRecord sr,SpecialActivity sa where sr.specialActivity.id = sa.id")
 	Page<SpecialRecord> findSpecialRecords(Pageable pageable);
+	
+	/**
+	 * 通过外检关联查询 (团购活动列表)
+	 * 
+	 * @param pageable
+	 * @return
+	 */
+	@Query("select sr from SpecialRecord sr,GroupActivity sa where sr.specialActivity.id = sa.id")
+	Page<GroupActivity> findByGroupId(Pageable pageable);
+	
+	/**
+	 * 模糊查询
+	 * 
+	 * @param pageable
+	 * @return
+	 */
+	@Query("select sr from SpecialRecord sr,GroupActivity sa where sr.specialActivity.id = sa.id and sr like ?1 and title like ?2")
+	Page<GroupActivity> findByTitleAndName(String name,String title,Pageable pageable);
 
 }

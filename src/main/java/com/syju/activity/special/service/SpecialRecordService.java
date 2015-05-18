@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.javasimon.aop.Monitored;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +22,7 @@ import org.springside.modules.persistence.DynamicSpecifications;
 import org.springside.modules.persistence.SearchFilter;
 import org.springside.modules.persistence.SearchFilter.Operator;
 
+import com.syju.activity.group.entity.GroupActivity;
 import com.syju.activity.special.entity.SpecialRecord;
 import com.syju.activity.special.repository.jpa.SpecialRecordDao;
 import com.syju.commons.service.CommonService;
@@ -84,6 +86,31 @@ public class SpecialRecordService extends CommonService {
 		Page<SpecialRecord> specialRecords = specialRecordDao.findSpecialRecords(pageRequest);
 		return specialRecords;
 	}
+	
+	
+	/**
+	 * 查询团购
+	 * @param params 查询条件
+	 * @param pageNumber
+	 * @param pageSize
+	 * @param sortType
+	 * @return
+	 */
+	public Page<GroupActivity> findByGroup(Map<String,Object> params,int pageNumber, int pageSize, String sortType)
+	{
+		PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, sortType);
+		String name = (String)params.get("EQ_name");
+		String title = (String)params.get("EQ_title");
+		
+		if(StringUtils.isBlank(name)&&StringUtils.isBlank(title)){
+			return specialRecordDao.findByGroupId(pageRequest);
+		}else {
+			name ="%"+(StringUtils.isBlank(name)?"":name)+"%";
+			title="%"+(StringUtils.isBlank(title)?"":title)+"%";
+			return specialRecordDao.findByTitleAndName(name, title, pageRequest);
+		}
+	}
+	
 
 	/**
 	 * 创建分页请求.
@@ -98,6 +125,10 @@ public class SpecialRecordService extends CommonService {
 
 		return new PageRequest(pageNumber - 1, pagzSize, sort);
 	}
+	
+	
+	
+	
 
 	/**
 	 * 创建动态查询条件组合.
