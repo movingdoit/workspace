@@ -50,5 +50,6 @@ public class SpecialRecordController extends BaseController {
 		redirectAttributes.addFlashAttribute("message", "删除成功");
 		return "redirect:/activity/specialRecord/list";
 	}
+	
 
 }
