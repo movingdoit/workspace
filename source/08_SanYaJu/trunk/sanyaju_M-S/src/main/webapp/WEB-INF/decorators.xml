@@ -11,9 +11,14 @@
 		<pattern>/cms/content/choosePage*</pattern>
 		<pattern>/goods/item/choosePage*</pattern>
 		<pattern>/bbs/topic/choosePage**</pattern>
+		
 		<pattern>/**/*4Ajax</pattern>
 		<pattern>/**/*4Ajax**</pattern>
 		<pattern>/**/*4Ajax/**</pattern>
+		
+		<!-- 新增 -->
+		<pattern>/house/detail/recommend**</pattern>
+		
 	</excludes>
 	
 	<decorator name="default" page="default.jsp">
