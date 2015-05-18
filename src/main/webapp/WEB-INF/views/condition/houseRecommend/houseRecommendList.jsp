@@ -41,8 +41,8 @@
                             </tr>
                             </thead>
                             <tbody id="proList">
-                            <c:if test="${not empty hotSorts && hotSorts.size>0}">
-	                            <c:forEach items="${hotSorts.content}" var="Item">
+                            <c:if test="${not empty houseRecommends && houseRecommends.size>0}">
+	                            <c:forEach items="${houseRecommends.content}" var="Item">
 									<tr>
 										<td>${Item.houseInfo.name}</td>
 										<td>${Item.houseInfo.houseType}</td>
@@ -64,15 +64,15 @@
 									</tr>
 								</c:forEach>
 							</c:if>
-							<c:if test="${empty hotSorts || hotSorts.totalPages == 0 }">
+							<c:if test="${empty houseRecommends || houseRecommends.totalPages == 0 }">
 								<tr>
 		                            <td colspan="8" class="text-center"><strong>没有任何信息 *_*</strong></td>
 		                        </tr>
 							</c:if>
                             </tbody>
                         </table>
-                         <c:if test="${not empty hotSorts && hotSorts.totalPages >1 }">
-                        	<tags:pagination page="${hotSorts}" paginationSize="10"/>
+                         <c:if test="${not empty houseRecommends && houseRecommends.totalPages >1 }">
+                        	<tags:pagination page="${houseRecommends}" paginationSize="10"/>
                         </c:if>
                 </div>
             </div>
