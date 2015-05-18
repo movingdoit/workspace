@@ -23,16 +23,44 @@
     <div class="container-fluid">
         <hr>
         <div class="row-fluid">
-		    <div class="row-fluid">
+		    <!-- <div class="row-fluid">
 				<div class="span4 control-group">
 					<a href="/article/detail/create" class="btn"><i class="icon-plus"></i> 添加新新闻</a>
 					<a href="/article/category" class="btn"><i class="icon-plus"></i> 分类管理</a>
+					
 				</div>
-			</div>
+			</div> -->
             <div class="span12">
+                 <div class="span6">
+                 <form class="form-inline pt15 pb15"
+						action="${ctx}/article/manager/search" method="get"
+						style="position: relative; top: 0px; left: 0px; width: 90%; height: 100%;">
+						<div class="form-group ml10">
+							<select name="search_EQ_type" class="input-medium"
+								id="type" data-rule-required="true">
+								<option value=""></option>
+								<c:forEach items="${articleCategorys}" var="type">
+									<c:choose>
+										<c:when test="${search.EQ_type == type.id }">
+											<option value="${type.id}" selected="selected">${type.name}</option>
+										</c:when>
+										<c:otherwise>
+											<option value="${type.id}">${type.name}</option>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</select> <input type="text" name="search_EQ_name"
+								value="${search.EQ_name }" class="form-control"
+								placeholder="请输入楼盘名搜索" style="width: 190px;">
+							<button type="submit" class="btn btn-success ml10">搜索</button>
+						</div>
+				 </form>
+				 </div>
                  <table class="table table-bordered table-striped">
                      <thead>
                      <tr>
+                        <th>所属分类</th>
+                        <th>所属楼盘</th>
                         <th>新闻标题</th>
 						<th>发布时间</th>
 						<th>排序</th>
@@ -44,9 +72,8 @@
                      <c:if test="${not empty articles && articles.size > 0 }">
 					 <c:forEach items="${articles.content}" var="article">
 						<tr>
-							<td class='table-checkbox hidden-480'>
-								<input type="checkbox" name="id" value="${article.id}" class='selectable'>
-							</td>
+						    <td>${article.articleCategory.name}</td>
+						    <td>${article.houseInfo.name}</td>
 							<td class='table-fixed-medium' style="width: 110px">${article.title}</td>
 							<td><fmt:formatDate value="${article.addTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 							<td>${article.priority}</td>

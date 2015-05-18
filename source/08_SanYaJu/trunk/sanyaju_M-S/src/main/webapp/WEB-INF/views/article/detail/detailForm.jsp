@@ -32,7 +32,7 @@
     
     <!-- Breadcrumbs -->
     <div id="content-header">
-        <h1><i class="icon-edit"></i>  ${custom != 1 ? '新增文章' : ''}${(custom == 1 && null != articleCategory && articleCategory.id > 1) ?  articleCategory.name : '' }${(custom == 1 && null != article.articleCategory && article.articleCategory.id >1) ?  article.articleCategory.name : '' }
+        <h1><i class="icon-edit"></i>  ${action == 'create' ? '新增文章' : '修改文章'}${(custom == 1 && null != articleCategory && articleCategory.id > 1) ?  articleCategory.name : '' }${(custom == 1 && null != article.articleCategory && article.articleCategory.id >1) ?  article.articleCategory.name : '' }
         </h1>
     </div>
     <!-- // Breadcrumbs -->
@@ -43,7 +43,7 @@
             <div class="span12">
                 <div class="widget-box">
                     <div class="widget-title"> <span class="icon"> <i class="icon-edit"></i> </span>
-                        <h5>${custom != 1 ? '新增文章' : ''}${(custom == 1 && null != articleCategory && articleCategory.id > 1) ?  articleCategory.name : '' }${(custom == 1 && null != article.articleCategory && article.articleCategory.id >1) ?  article.articleCategory.name : '' }</h5>
+                        <h5>${action == 'create' ? '新增文章' : '修改文章'}${(custom == 1 && null != articleCategory && articleCategory.id > 1) ?  articleCategory.name : '' }${(custom == 1 && null != article.articleCategory && article.articleCategory.id >1) ?  article.articleCategory.name : '' }</h5>
                         
                     </div>
                     <div class="widget-content nopadding">
@@ -71,6 +71,35 @@
                                 </div>
 								</c:if>
                             </div>
+                            
+                            
+                            <div class="control-group">
+							    <c:if test="${action == 'create'}">
+									<label class="control-label">  楼盘类别 :</label>
+	                                <div class="controls">
+	                                   <select name="recommendType" onchange="getHouse()" class="input-medium" id="recommendType" >
+	                                        <option value="0" ></option>
+	                                        <c:forEach items="${recommendType}" var="type">
+                                                <option value="${type.key}" >${type.value}</option>
+	                                        </c:forEach>
+							           </select>
+	                                </div>
+	                                <label class="control-label">  选择楼盘 :</label>
+	                                <div class="controls">
+	                                   <select name="houseId"  class="input-medium" id="houseId" >
+							           </select>
+	                                </div>
+                                </c:if>
+                                <c:if test="${not empty article.houseInfo}">
+                                	<input type="hidden" name="houseId" value="${article.houseInfo.id}">
+                                	<label class="control-label"><span class="red">*</span>楼盘名称:</label>
+									<div class="controls">
+										<input type="text" id="name" name="name" disabled="disabled" value="${article.houseInfo.name}" class="span3">
+									</div>	
+                                 </c:if>
+							</div>
+                            
+                            
                            
                             <div class="control-group"> 
                                 <label class="control-label">文章标题：</label>
@@ -150,7 +179,7 @@
 <script src="${ctx}/static/assets/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/assets/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script src="${ctx}/static/assets/js/matrix.form_common.js"></script>
-<script src="${ctx}/static/assets/plugins/wizard/jquery.form.js"></script>
+<script src="/static/assets/js/jquery.form.min.js"></script>
 <script src="${ctx}/static/assets/plugins/wizard/jquery.form.wizard.js"></script>
 <script src="${ctx}/static/assets/plugins/fileupload/bootstrap-fileupload.min.js"></script>
 <script src="${ctx}/static/assets/js/form-wizard.js"></script>
@@ -178,35 +207,54 @@
 		});
 	});
 	
+	
 	// 保存
-	$('#save').click(function(){
+	$('#save').click(function() {
 		var action = "${action}";
-		$("#J_addForm").attr("action","${ctx}/house/detail/${action}");
-		$("#J_addForm").ajaxSubmit(
-				function(data) {
-		        	if(data){
-		        		if('0000' == data.code){
-		        			// $('#message').text("保存成功");
-			            	alert(data.message);
-			            	if(action=="create"){
-			            		location.href = "${ctx}/house/detail/list";
-			            	}else{
-			            		location.href = "${ctx}/house/detail/list";
-			            		//window.history.go(-1);
-			            		//window.location.reload(true);
-			            	}
-		        		}else if('9999' == data.code){
-		        			// $('#message').text("您的操作超时，请重试！");
-			            	alert(data.message);
-		        		}else {
-		        			// $('#message').text(data.msg);
-			            	alert(data.message);
-		        		}
-		        	}else{
-		            	alert("操作异常，请重试。");
-		        	}
-		        });
+		$("#J_addForm").attr("action", "${ctx}/house/detail/${action}");
+		if ($("#photoForm").valid()) {
+			$("#J_addForm").ajaxSubmit(function(data) {
+				if (data) {
+					if ('0000' == data.code) {
+						// $('#message').text("保存成功");
+						alert(data.message);
+						if (action == "create") {
+							location.href = "${ctx}/house/detail/list";
+						} else {
+							location.href = "${ctx}/house/detail/list";
+							//window.history.go(-1);
+							//window.location.reload(true);
+						}
+					} else if ('9999' == data.code) {
+						// $('#message').text("您的操作超时，请重试！");
+						alert(data.message);
+					} else {
+						// $('#message').text(data.msg);
+						alert(data.message);
+					}
+				} else {
+					alert("操作异常，请重试。");
+				}
+			});
+		}
 	});
+
+	function getHouse() {
+		$("#houseId").empty();
+		var id = $("#recommendType  option:selected").val();
+		$.post("${ctx}/article/detail/gethouse/" + id, function(data) {
+			if (data) {
+				$(data).each(
+						function(index) {
+							var house = data[index];
+							$("#houseId").append(
+									"<option value="+house.id+" >"
+											+ (index + 1) + "-" + house.name
+											+ "</option>");
+						});
+			}
+		});
+	}
 </script>
 
 </body>
