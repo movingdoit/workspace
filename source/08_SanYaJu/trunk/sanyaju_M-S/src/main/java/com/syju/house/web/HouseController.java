@@ -10,6 +10,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -423,11 +424,16 @@ public class HouseController extends BaseController {
 		String code = "0000";
 		String message = "修改成功";
 
-		HouseInfo house = houseService.findById(id);
-
-		if (!houseService.saveRecommend(recommend, house)) {
+		
+		if(StringUtils.isBlank(recommend)){
 			code = "9999";
-			message = "修改失败";
+		    message = "请先选择";
+		}else{
+			HouseInfo house = houseService.findById(id);
+			if (!houseService.saveRecommend(recommend, house)) {
+				code = "9999";
+				message = "修改失败";
+			}
 		}
 
 		/* 字典值 */
