@@ -45,8 +45,8 @@
                                 <label class="control-label"><i class="red">*</i> 选择模板 :</label>
                                 <div class="controls">
                                     <select id="modelType"  class="input-medium" onchange="chuange()" data-rule-required="true">
-                                        <option value="1" >模板一</option>
-                                        <option value="2" >模板二</option>
+                                        <option value="1" ${specialActivity.specialModelOne!=null ? 'selected="selected"' : '' } >模板一</option>
+                                        <option value="2" ${specialActivity.specialModelTwo!=null ? 'selected="selected"' : '' }>模板二</option>
                                     </select>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                                 <div class="control-group">
 	                                <label class="control-label"><i class="red">*</i> 导航一名称 :</label>
 	                                <div class="controls">
-	                                	<input type="text" name="navOne"  value="${specialActivity.specialModelOne.navOne}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
+	                                	<input type="text" name="specialModelOne.navOne"  value="${specialActivity.specialModelOne.navOne}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
 	                                </div>
 	                            </div>
 	                            <div class="control-group">
@@ -94,7 +94,7 @@
 	                                	<c:if test="${empty specialActivity.specialModelOne.slides}">
 	                                    	<p>
 	                                    		<input type="file" name="files">
-		                                        <input type="url" id="link" name="argList" value="" class="input-xlarge" data-rule-required="true" data-rule-url="true" placeholder="输入轮播图链接地址">
+		                                        <input type="url" id="link" name="attrList" value="" class="input-xlarge" data-rule-required="true" data-rule-url="true" placeholder="输入轮播图链接地址">
 		                                        <span class="help-inline">
 		                                            <a href="#" class="icon icon-plus green" title="增加字段"></a>
 		                                            <a href="#" class="icon icon-minus green" title="删除字段"></a>
@@ -107,8 +107,8 @@
 					              	  		<c:forEach items="${specialActivity.specialModelOne.slides}" var="Item">
 						              	  		<p>
 						              	  			<img src="${ctx}${Item.slideImage}" class="default-slider" />
-						              	  			<input type="file" name="files">
-						              	  			<input type="url" id="link" name="argList" value="${Item.slidePath }" class="input-xlarge" data-rule-required="true" data-rule-url="true" placeholder="输入轮播图链接地址">
+						              	  			<input type="file" name="files" value="${Item.slideImage}">
+						              	  			<input type="url" id="link" name="attrList" value="${Item.slidePath }" class="input-xlarge" data-rule-required="true" data-rule-url="true" placeholder="输入轮播图链接地址">
 						              	  			<span class="help-inline">
 			                                            <a href="#" class="icon icon-plus green" title="增加字段"></a>
 			                                            <a href="#" class="icon icon-minus green" title="删除字段"></a>
@@ -124,13 +124,13 @@
 	                                <label class="control-label"> 内容介绍  :</label>
 	                                <div class="controls">
 	                                    <!-- 加载编辑器的容器 -->
-								    	<script id="container1" name="contentInfo" style="width:830px;height:200px" type="text/plain">${null != specialActivity.specialModelOne.content && 'null' != specialActivity.specialModelOne.content ? specialActivity.specialModelOne.content : ''}</script>
+								    	<script id="container1" name="specialModelOne.contentInfo" style="width:830px;height:200px" type="text/plain">${null != specialActivity.specialModelOne.contentInfo && 'null' != specialActivity.specialModelOne.contentInfo ? specialActivity.specialModelOne.contentInfo : ''}</script>
 	                                </div>
 	                            </div>
 	                            <div class="control-group">
 	                                <label class="control-label"><i class="red">*</i> 导航二名称 :</label>
 	                                <div class="controls">
-	                                	<input type="text" name="navTwo"  value="${specialActivity.specialModelOne.navTwo}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
+	                                	<input type="text" name="specialModelOne.navTwo"  value="${specialActivity.specialModelOne.navTwo}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
 	                                </div>
 	                            </div>
 	                             <div class="control-group">
@@ -150,14 +150,14 @@
 	                             <div class="control-group">
 	                                <label class="control-label"><i class="red">*</i> 户型图链接地址 :</label>
 	                                <div class="controls">
-	                                    <input type="url" id="link" name="houseTypePath" value="${specialActivity.specialModelOne.houseTypePath}" class="input-xlarge" data-rule-required="true" data-rule-url="true">
+	                                    <input type="url" id="link" name="specialModelOne.houseTypePath" value="${specialActivity.specialModelOne.houseTypePath}" class="input-xlarge" data-rule-required="true" data-rule-url="true">
 	                                </div>
 	                            </div>
 	                            <div class="control-group">
 	                                <label class="control-label"> 户型介绍  :</label>
 	                                <div class="controls">
 	                                    <!-- 加载编辑器的容器 -->
-								    	<script id="container2" name="houseTypeInfo" style="width:830px;height:200px" type="text/plain">${null != specialActivity.specialModelOne.houseTypeInfo && 'null' != specialActivity.specialModelOne.houseTypeInfo ? specialActivity.specialModelOne.houseTypeInfo : ''}</script>
+								    	<script id="container2" name="specialModelOne.houseTypeInfo" style="width:830px;height:200px" type="text/plain">${null != specialActivity.specialModelOne.houseTypeInfo && 'null' != specialActivity.specialModelOne.houseTypeInfo ? specialActivity.specialModelOne.houseTypeInfo : ''}</script>
 	                                </div>
 	                            </div>
 	                            <div class="control-group">
@@ -191,7 +191,7 @@
 	                            <div class="control-group">
 	                                <label class="control-label"><i class="red">*</i> 导航三名称 :</label>
 	                                <div class="controls">
-	                                	<input type="text" name="navThree"  value="${specialActivity.specialModelOne.navThree}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
+	                                	<input type="text" name="specialModelOne.navThree"  value="${specialActivity.specialModelOne.navThree}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
 	                                </div>
 	                            </div>
 	                             <div class="control-group">
@@ -244,57 +244,57 @@
 	                            <div class="control-group">
 	                                <label class="control-label"><i class="red">*</i> 项目名称 :</label>
 	                                <div class="controls">
-	                                	<input type="text" name="productName"  value="${specialActivity.specialModelTwo.productName}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
+	                                	<input type="text" name="specialModelTwo.productName"  value="${specialActivity.specialModelTwo.productName}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
 	                                </div>
 	                            </div>
 	                            <div class="control-group">
 	                                <label class="control-label"><i class="red">*</i> 项目名称链接:</label>
 	                                <div class="controls">
-	                                	<input type="url" id="link" name="productNamePath" value="${specialActivity.specialModelTwo.productNamePath}" class="input-xlarge" data-rule-required="true" data-rule-url="true" placeholder="输入轮播图链接地址">
+	                                	<input type="url" id="link" name="specialModelTwo.productNamePath" value="${specialActivity.specialModelTwo.productNamePath}" class="input-xlarge" data-rule-required="true" data-rule-url="true" placeholder="输入轮播图链接地址">
 	                                </div>
 	                            </div>
 	                            <div class="control-group">
 	                                <label class="control-label"><i class="red">*</i> 项目位置 :</label>
 	                                <div class="controls">
-	                                	<input type="text" name="peoductLocaltion"  value="${specialActivity.specialModelTwo.peoductLocaltion}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
+	                                	<input type="text" name="specialModelTwo.peoductLocaltion"  value="${specialActivity.specialModelTwo.peoductLocaltion}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
 	                                </div>
 	                            </div>
 	                            <div class="control-group">
 	                                <label class="control-label"><i class="red">*</i> 项目位置链接:</label>
 	                                <div class="controls">
-	                                	<input type="url" id="link" name="productLocaltionPath" value="${specialActivity.specialModelTwo.productLocaltionPath}" class="input-xlarge" data-rule-required="true" data-rule-url="true" placeholder="输入轮播图链接地址">
+	                                	<input type="url" id="link" name="specialModelTwo.productLocaltionPath" value="${specialActivity.specialModelTwo.productLocaltionPath}" class="input-xlarge" data-rule-required="true" data-rule-url="true" placeholder="输入轮播图链接地址">
 	                                </div>
 	                            </div>
 	                            <div class="control-group">
 	                                <label class="control-label"><i class="red">*</i> 起价 :</label>
 	                                <div class="controls">
-	                                	<input type="text" name="startingPrice"  value="${specialActivity.specialModelTwo.startingPrice}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
+	                                	<input type="text" name="specialModelTwo.startingPrice"  value="${specialActivity.specialModelTwo.startingPrice}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
 	                                </div>
 	                            </div>
 	                            <div class="control-group">
 	                                <label class="control-label"><i class="red">*</i> 均价 :</label>
 	                                <div class="controls">
-	                                	<input type="text" name="averagePrice"  value="${specialActivity.specialModelTwo.averagePrice}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
+	                                	<input type="text" name="specialModelTwo.averagePrice"  value="${specialActivity.specialModelTwo.averagePrice}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
 	                                </div>
 	                            </div>
 	                            <div class="control-group">
 	                                <label class="control-label"><i class="red">*</i> 装修情况 :</label>
 	                                <div class="controls">
-	                                	<input type="text" name="decorateStatus"  value="${specialActivity.specialModelTwo.decorateStatus}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
+	                                	<input type="text" name="specialModelTwo.decorateStatus"  value="${specialActivity.specialModelTwo.decorateStatus}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
 	                                </div>
 	                            </div>
 	                            <div class="control-group">
 	                                <label class="control-label"> 项目介绍  :</label>
 	                                <div class="controls">
 	                                    <!-- 加载编辑器的容器 -->
-								    	<script id="container3" name="productInfo" style="width:830px;height:200px" type="text/plain">${null != specialActivity.specialModelTwo.productInfo && 'null' != specialActivity.specialModelTwo.productInfo ? specialActivity.specialModelTwo.productInfo : ''}</script>
+								    	<script id="container3" name="specialModelTwo.productInfo" style="width:830px;height:200px" type="text/plain">${null != specialActivity.specialModelTwo.productInfo && 'null' != specialActivity.specialModelTwo.productInfo ? specialActivity.specialModelTwo.productInfo : ''}</script>
 	                                </div>
 	                            </div>
 	                            <div class="control-group">
 	                                <label class="control-label"> 位置优势 :</label>
 	                                <div class="controls">
 	                                    <!-- 加载编辑器的容器 -->
-								    	<script id="container4" name="locationAdvantage" style="width:830px;height:200px" type="text/plain">${null != specialActivity.specialModelTwo.locationAdvantage && 'null' != specialActivity.specialModelTwo.locationAdvantage ? specialActivity.specialModelTwo.locationAdvantage : ''}</script>
+								    	<script id="container4" name="specialModelTwo.locationAdvantage" style="width:830px;height:200px" type="text/plain">${null != specialActivity.specialModelTwo.locationAdvantage && 'null' != specialActivity.specialModelTwo.locationAdvantage ? specialActivity.specialModelTwo.locationAdvantage : ''}</script>
 	                                </div>
 	                            </div>
 	                            <div class="control-group">
@@ -307,13 +307,13 @@
 	                            <div class="control-group">
 	                                <label class="control-label"><i class="red">*</i> 户型一名称 :</label>
 	                                <div class="controls">
-	                                	<input type="text" name="houseTypeOneName"  value="${specialActivity.specialModelTwo.houseTypeOneName}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
+	                                	<input type="text" name="specialModelTwo.houseTypeOneName"  value="${specialActivity.specialModelTwo.houseTypeOneName}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
 	                                </div>
 	                            </div>
 	                            <div class="control-group">
 	                                <label class="control-label"><i class="red">*</i> 户型一链接:</label>
 	                                <div class="controls">
-	                                	<input type="url" id="link" name="houseTypeOnePath" value="${specialActivity.specialModelTwo.houseTypeOnePath}" class="input-xlarge" data-rule-required="true" data-rule-url="true" placeholder="输入轮播图链接地址">
+	                                	<input type="url" id="link" name="specialModelTwo.houseTypeOnePath" value="${specialActivity.specialModelTwo.houseTypeOnePath}" class="input-xlarge" data-rule-required="true" data-rule-url="true" placeholder="输入轮播图链接地址">
 	                                </div>
 	                            </div>
 	                            <div class="control-group">
@@ -326,13 +326,13 @@
 	                            <div class="control-group">
 	                                <label class="control-label"><i class="red">*</i> 户型二名称 :</label>
 	                                <div class="controls">
-	                                	<input type="text" name="houseTypeTwoName"  value="${specialActivity.specialModelTwo.houseTypeTwoName}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
+	                                	<input type="text" name="specialModelTwo.houseTypeTwoName"  value="${specialActivity.specialModelTwo.houseTypeTwoName}" class="span2" required="required" data-rule-required="true" data-rule-maxlength="20" placeholder="最多20个字符"/>
 	                                </div>
 	                            </div>
 	                            <div class="control-group">
 	                                <label class="control-label"><i class="red">*</i> 户型二链接:</label>
 	                                <div class="controls">
-	                                	<input type="url" id="link" name="houseTypeTwoPath" value="${specialActivity.specialModelTwo.houseTypeTwoPath}" class="input-xlarge" data-rule-required="true" data-rule-url="true" placeholder="输入轮播图链接地址">
+	                                	<input type="url" id="link" name="specialModelTwo.houseTypeTwoPath" value="${specialActivity.specialModelTwo.houseTypeTwoPath}" class="input-xlarge" data-rule-required="true" data-rule-url="true" placeholder="输入轮播图链接地址">
 	                                </div>
 	                            </div>
                             </div>
@@ -369,8 +369,12 @@
 	var ue = UE.getEditor('container4');
 	
 	$(document).ready(function() {  //初始化
-		var id = ${specialActivity.specialModelOne.id ? specialActivity.specialModelOne.id : '0'};
-		if(id != 1){
+		var id = ${specialActivity.specialModelTwo==null ? true : false};
+		var action = "${action}";
+		if(action == "update"){
+			$('#modelType').attr("disabled","disabled");//将input元素设置为disabled
+		}
+		if(id){
 			$('#modelTwo').hide();
 			$('#modelTwo').attr("disabled","disabled");//将input元素设置为disabled
 		}else {
@@ -402,10 +406,19 @@
 		var obj = document.getElementById("modelType"); //定位id
 	    var index = obj.selectedIndex; // 选中索引
 	    var value = obj.options[index].value; // 选中值
-	    if(value == 1){
-	    	$("#J_addForm").attr("action","${ctx}/activity/specialActivity/createOne");   //根据选中的模板 提交到对应的控制器
-	    }else if(value == 2){
-	    	$("#J_addForm").attr("action","${ctx}/activity/specialActivity/createTwo");
+	    var action = "${action}";
+	    if(action == "create"){
+	    	if(value == 1){
+		    	$("#J_addForm").attr("action","${ctx}/activity/specialActivity/createOne");   //根据选中的模板 提交到对应的控制器
+		    }else if(value == 2){
+		    	$("#J_addForm").attr("action","${ctx}/activity/specialActivity/createTwo");
+		    }
+	    }else if(action == "update"){
+	    	if(value == 1){
+		    	$("#J_addForm").attr("action","${ctx}/activity/specialActivity/updateOne");   //根据选中的模板 提交到对应的控制器
+		    }else if(value == 2){
+		    	$("#J_addForm").attr("action","${ctx}/activity/specialActivity/updateTwo");
+		    }
 	    }
 		if(($("#J_addForm").valid())){
 			$("#J_addForm").ajaxSubmit(
@@ -428,6 +441,47 @@
 			        });
 		}
 	});
+	
+	
+	/*
+	    * uploadify  文件上传
+	    */
+	    $('#file_upload').uploadify({
+	        'buttonClass': 'btn btn-file',
+	        'buttonText': '选择图片',
+	        'uploadLimit' : 5,
+	        'fileSizeLimit' : '500KB',
+	        'fileTypeDesc' : '图片文件',
+	        'fileTypeExts' : '*.gif; *.jpg; *.jpeg; *.png',
+	        'removeCompleted' : false,
+	        'swf'      : '${ctx}/static/plug-in/uploadify/uploadify.swf',
+	        'uploader' : '${ctx}/component/uploadifyServer/uploadImage',
+	        'itemTemplate' : '<div id="\${fileID}" class="uploadify-queue-item">\
+				              <div class="cancel">\
+				              <a href="javascript:$(\'#\${instanceID}\').uploadify(\'cancel\', \'\${fileID}\')">X</a>\
+				              </div>\
+				              <div><img id="img_\${fileID}" src="\${fileName}" style="display:none;width: 50px;height: 50px;">\
+				              <input type="hidden" id="pic_\${fileID}" name="pictures" value=""/></div>\
+				              <span class="fileName">\${fileName} (\${fileSize})</span><span class="data"></span>\
+				              </div>',
+	        'onUploadSuccess' : function(file, data, response) {
+	            if(response ){
+		    		var JSONDate = $.parseJSON(data);
+		    		if(JSONDate && JSONDate.code == '0000' && JSONDate.nameList && JSONDate.nameList.length >0){
+		        		$(JSONDate.nameList).each(function(i){
+			        		var obj = JSONDate.nameList[i];
+			        		if(i==0){
+					        	$('#pic_'+file.id).val(obj);
+					        	$('#img_'+file.id).attr('src', obj);
+					        	$('#img_'+file.id).show();
+			        		}
+		        		}); 
+		    			
+		    		}
+		    	}
+	            
+	        }
+	    });
     
 </script>
 	

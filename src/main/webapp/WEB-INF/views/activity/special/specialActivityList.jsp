@@ -33,7 +33,7 @@
                             <tr>
                                 <th>活动标题</th>
 		                        <th>活动封面</th>
-		                        <!-- <th>报名人数上限</th> -->
+		                        <th>所属模板</th>
 		                        <th>活动信息</th>
 		                        <th>开始时间</th>
 		                        <th>结束时间</th>
@@ -50,7 +50,7 @@
 													<img width="60px" height="50px"  alt="" src="${Item.activityImage}"/>
 											</c:if>
 										</td>
-										<%-- <td>${Item.joinLimit}</td> --%>
+										<td><a href="#" onclick="link(${Item.specialModelOne},${Item.specialModelTwo.id})">${Item.specialModelOne!=null ? '模板一' : ''}${Item.specialModelTwo!=null ? '模板二' : ''}${Item.specialModelTwo==null && Item.specialModelOne==null ? '无模板' : ''}</a></td>
 										<td>${Item.content}</td>
 										<td><fmt:formatDate value="${Item.beginDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 										<td><fmt:formatDate value="${Item.endDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
@@ -81,6 +81,10 @@
 </div>
 <!-- // Main Container -->
 <script type="text/javascript" >
+
+	function link(id1,id2){
+		var id = id1;
+	}
 
  	
  	// 修改是否显示
