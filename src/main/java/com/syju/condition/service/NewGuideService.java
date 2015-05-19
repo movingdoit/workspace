@@ -22,6 +22,7 @@ import org.springside.modules.persistence.SearchFilter;
 import org.springside.modules.persistence.SearchFilter.Operator;
 
 import com.syju.commons.service.CommonService;
+import com.syju.condition.entity.FeatureHouse;
 import com.syju.condition.entity.NewGuide;
 import com.syju.condition.repository.jpa.NewGuideDao;
 
@@ -165,6 +166,50 @@ public class NewGuideService extends CommonService {
 
 		return newGuideDao.findAll(spec, pageRequest);
 	}
+	
+	
+	/**
+	 * 获取最大排序号
+	 * 
+	 * @return
+	 */
+	public Long getMaxPriority() {
+		Long index = newGuideDao.getMaxPriority();
+		if (index == null) {
+			return 1L;
+		}else{
+			index=index+1;
+		}
+		return index;
+	}
+
+	/**
+	 * 通过外键获取对象
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public NewGuide findByHouse(Long id) {
+		return newGuideDao.findByHouseInfoId(id);
+	}
+
+	/**
+	 * 组合查询
+	 * 
+	 * @param name
+	 * @param pageNumber
+	 * @param pagzSize
+	 * @param sortType
+	 * @return
+	 */
+	public Page<NewGuide> findByNewGuideAndHouse(String name, int pageNumber, int pagzSize, String sortType) {
+		if (name != null) {
+			name = "%" + name.trim() + "%";
+		}
+		PageRequest pageable = buildPageRequest(pageNumber, pagzSize, sortType);
+		return newGuideDao.findNewGuideAndHouse(name, pageable);
+	}
+	
 
 	/**
 	 * 创建分页请求.

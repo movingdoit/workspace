@@ -5,12 +5,16 @@
  *******************************************************************************/
 package com.syju.condition.repository.jpa;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.syju.condition.entity.HouseRecommend;
+import com.syju.condition.entity.NewFav;
+import com.syju.condition.entity.NewGuide;
 
 public interface HouseRecommendDao extends PagingAndSortingRepository<HouseRecommend, Long>,
 		JpaSpecificationExecutor<HouseRecommend> {
@@ -63,4 +67,30 @@ public interface HouseRecommendDao extends PagingAndSortingRepository<HouseRecom
 	@Modifying
 	@Query("update HouseRecommend hr set hr.priority = hr.priority-1 where hr.priority > ?1")
 	int updateDownPriority(Long priority);
+	
+	// 获取最大排序号
+	@Query("select MAX(priority) from HouseRecommend ")
+	Long getMaxPriority();
+
+	
+	/**
+	 * 通过外检删除
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@Modifying
+	@Query("delete from  HouseRecommend sh  where sh.houseInfo.id = ?1")
+	int deleteByHouse(Long id);
+	// 通过外键查找
+	HouseRecommend findByHouseInfoId(Long id);
+	/**
+	 * 通过外检关联查询
+	 * 
+	 * @param name
+	 * @param pageable
+	 * @return
+	 */
+	@Query("select s from HouseRecommend s,HouseInfo h where s.houseInfo.id = h.id and h.name like ?1 ")
+	Page<HouseRecommend> findHouseRecommendAndHouse(String name, Pageable pageable);
 }
