@@ -7,7 +7,7 @@
 
 <html>
 <head>
-	<title>添加广告</title>
+	<title>${(ad.id != null) ? '编辑专题活动' : '新增专题活动' }</title>
 </head>
 <body>
 
@@ -15,7 +15,7 @@
 <div id="content">
     <!-- Breadcrumbs -->
     <div id="content-header">
-        <h1><i class="icon-edit"></i> 添加广告</h1>
+        <h1><i class="icon-edit"></i> ${(ad.id != null) ? '编辑专题活动' : '新增专题活动' }</h1>
     </div>
     <!-- // Breadcrumbs -->
     <!-- Action Boxes -->
@@ -25,7 +25,7 @@
             <div class="span12">
                 <div class="widget-box">
                     <div class="widget-title"> <span class="icon"> <i class="icon-edit"></i> </span>
-                    	<h5>添加广告</h5>
+                    	<h5>${(ad.id != null) ? '编辑专题活动' : '新增专题活动' }</h5>
                     	<p style="margin: 0px;">
                            <a class="btn" href="${ctx}/ad/list"><i class="icon-plus"></i>广告列表</a>
                         </p>
