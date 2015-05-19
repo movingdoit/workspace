@@ -216,7 +216,7 @@ $(document).ready(function(){
         e.preventDefault();
         var $this = $(this)
             ,$p = $this.parents('p');
-        var $html = '<p><input type="text" name="attrList">'+
+        var $html = '<p><input type="file" name="files"><input type="url" id="link" name="attrList" value="" class="input-xlarge" data-rule-required="true" data-rule-url="true" placeholder="输入轮播图链接地址">'+
                         ' <span class="help-inline">'+
                             ' <a href="#" class="icon icon-plus green" title="增加字段"></a>'+
                             ' <a href="#" class="icon icon-minus green" title="删除字段"></a>'+
