@@ -58,8 +58,8 @@ public class DictType {
 		map.put(2, "热销楼盘");
 		return map;
 	}
-	
-	/* 推荐分类*/
+
+	/* 推荐分类 */
 	public static Map<Integer, String> getRecommend() {
 		Map<Integer, String> map = new HashMap<Integer, String>();
 		map.put(1, "特价楼盘");
@@ -100,4 +100,28 @@ public class DictType {
 	}
 	
 	
+	/*
+	 * 广告类型
+	 * public static Map<Integer, String> getAdType() {
+	 * Map<Integer, String> map = new HashMap<Integer, String>();
+	 * map.put(1, "首页广告");
+	 * map.put(2, "楼盘展示页广告");
+	 * map.put(3, "特价楼盘广告");
+	 * map.put(4, "搜索页广告");
+	 * map.put(5, "新闻资讯广告");
+	 * return map;
+	 * }
+	 * 
+	 * 广告位置
+	 * public static Map<Integer, String> getAdLocation() {
+	 * Map<Integer, String> map = new HashMap<Integer, String>();
+	 * map.put(1, "特价楼盘");
+	 * map.put(2, "特色楼盘");
+	 * map.put(3, "热点推荐");
+	 * map.put(4, "热销排行");
+	 * map.put(5, "最新优惠");
+	 * return map;
+	 * }
+	 */
+
 }
