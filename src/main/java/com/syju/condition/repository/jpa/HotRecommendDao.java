@@ -5,8 +5,6 @@
  *******************************************************************************/
 package com.syju.condition.repository.jpa;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -81,13 +79,12 @@ public interface HotRecommendDao extends PagingAndSortingRepository<HotRecommend
 
 	/**
 	 * 关联外键查询
+	 * 
 	 * @param name
 	 * @param pageable
 	 * @return
 	 */
 	@Query("select s from HotRecommend s,HouseInfo h where s.houseInfo = h and h.name like ?1 ")
 	Page<HotRecommend> findHotRecommendAndHouse(String name, Pageable pageable);
-	
-	
 
 }

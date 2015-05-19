@@ -5,8 +5,6 @@
  *******************************************************************************/
 package com.syju.condition.repository.jpa;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -94,6 +92,5 @@ public interface FeatureHouseDao extends PagingAndSortingRepository<FeatureHouse
 	 */
 	@Query("select s from FeatureHouse s,HouseInfo h where s.houseInfo.id = h.id and h.name like ?1 ")
 	Page<FeatureHouse> findFeatureHouseAndHouse(String name, Pageable pageable);
-	
-	
+
 }

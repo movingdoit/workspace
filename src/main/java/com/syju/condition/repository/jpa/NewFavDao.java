@@ -14,7 +14,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import com.syju.condition.entity.HotSort;
 import com.syju.condition.entity.NewFav;
 
 public interface NewFavDao extends PagingAndSortingRepository<NewFav, Long>, JpaSpecificationExecutor<NewFav> {
@@ -84,6 +83,7 @@ public interface NewFavDao extends PagingAndSortingRepository<NewFav, Long>, Jpa
 
 	/**
 	 * 关联外键查询
+	 * 
 	 * @param name
 	 * @param pageable
 	 * @return
