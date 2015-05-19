@@ -7,7 +7,14 @@
 
 <html>
 <head>
+
 <title>推荐选择</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=8">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-control" content="no-cache">
+<meta http-equiv="Cache" content="no-cache">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <link rel="stylesheet" href="${ctx}/static/assets/css/bootstrap.min.css">
@@ -120,24 +127,34 @@
 	<script src="/static/assets/js/fileupload/bootstrap-fileupload.min.js"></script>
 	<script src="/static/assets/js/zhenyuan.js"></script>
 	<script>
-	    
-	    
-	    $("#channel").click(function(){
-	    	//window.close();
-	    	location.href = "${ctx}/house/detail/list";
-	    });
-	
+		
+		$(document).keydown(function(event) {
+			switch (event.keyCode) {
+			
+			case 27:
+				location.href = "${ctx}/house/detail/list";
+			case 96:
+				location.href = "${ctx}/house/detail/list";
+			}
+
+		});
+
+		$("#channel").click(function() {
+			//window.close();
+			location.href = "${ctx}/house/detail/list";
+		});
+
 		$("#save").click(function() {
 			//if ($("#categoryForm").valid()) {
-				$("#recommendForm").ajaxSubmit(function(data) { //提交成功的回调函数  
-					if (data.code=="0000") {
-						alert(data.message);
-						location.href = "${ctx}/house/detail/list";
-						//location.reload();
-					} else {
-						alert(data.message);
-					}
-				});
+			$("#recommendForm").ajaxSubmit(function(data) { //提交成功的回调函数  
+				if (data.code == "0000") {
+					alert(data.message);
+					location.href = "${ctx}/house/detail/list";
+					//location.reload();
+				} else {
+					alert(data.message);
+				}
+			});
 			//};
 		});
 	</script>
