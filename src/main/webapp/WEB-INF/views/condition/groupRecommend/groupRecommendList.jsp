@@ -5,7 +5,7 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
-	<title>特色楼盘列表</title>
+	<title>团购推荐列表</title>
 	<script>
 		$(document).ready(function() {
 			$("#account-tab").addClass("active");   
@@ -17,7 +17,7 @@
 <div id="content">
     <!-- Breadcrumbs -->
     <div id="content-header">
-        <h1>特色楼盘列表</h1>
+        <h1>团购推荐列表</h1>
     </div>
     <!-- // Breadcrumbs -->
     <!-- Action Boxes -->
