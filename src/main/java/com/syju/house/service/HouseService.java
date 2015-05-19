@@ -23,12 +23,16 @@ import com.syju.commons.util.DateUtils;
 import com.syju.condition.entity.FeatureHouse;
 import com.syju.condition.entity.HotRecommend;
 import com.syju.condition.entity.HotSort;
+import com.syju.condition.entity.HouseRecommend;
 import com.syju.condition.entity.NewFav;
+import com.syju.condition.entity.NewGuide;
 import com.syju.condition.entity.SpecialHouse;
 import com.syju.condition.repository.jpa.FeatureHouseDao;
 import com.syju.condition.repository.jpa.HotRecommendDao;
 import com.syju.condition.repository.jpa.HotSortDao;
+import com.syju.condition.repository.jpa.HouseRecommendDao;
 import com.syju.condition.repository.jpa.NewFavDao;
+import com.syju.condition.repository.jpa.NewGuideDao;
 import com.syju.condition.repository.jpa.SpecialHouseDao;
 import com.syju.house.constrant.DictType;
 import com.syju.house.entity.HouseInfo;
@@ -52,6 +56,10 @@ public class HouseService extends CommonService {
 	private NewFavDao newFavDao;
 	@Resource
 	private SpecialHouseDao specialHouseDao;
+	@Resource
+	private NewGuideDao newGuideDao; // 新盘导购
+	@Resource
+	private HouseRecommendDao recommendDao; // 楼盘推荐
 
 	/**
 	 * 保存楼盘
@@ -72,9 +80,11 @@ public class HouseService extends CommonService {
 	 * 
 	 * @return
 	 */
-	public Page<HouseInfo> findHouse(int pageNumber, int pageSize, String sortType) {
+	public Page<HouseInfo> findHouse(int pageNumber, int pageSize,
+			String sortType) {
 
-		PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, sortType);
+		PageRequest pageRequest = buildPageRequest(pageNumber, pageSize,
+				sortType);
 		return houseDao.findByHouse(pageRequest);
 	}
 
@@ -83,9 +93,11 @@ public class HouseService extends CommonService {
 	 * 
 	 * @return
 	 */
-	public Page<HouseInfo> findByName(int pageNumber, int pageSize, String sortType, String name) {
+	public Page<HouseInfo> findByName(int pageNumber, int pageSize,
+			String sortType, String name) {
 
-		PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, sortType);
+		PageRequest pageRequest = buildPageRequest(pageNumber, pageSize,
+				sortType);
 
 		if (StringUtils.isBlank(name)) {
 			return houseDao.findByNameIsNull(pageRequest);
@@ -111,6 +123,8 @@ public class HouseService extends CommonService {
 		HotRecommend hotrecommend = new HotRecommend();
 		HotSort hotSort = new HotSort();
 		NewFav newFav = new NewFav();
+		NewGuide newGuide = new NewGuide();
+		HouseRecommend hr = new HouseRecommend();
 
 		/* 当前时间 */
 		Date date = DateUtils.getNowDate();
@@ -149,22 +163,36 @@ public class HouseService extends CommonService {
 					hotrecommend.setCreateTime(time);
 					hotrecommend.setHouseInfo(house);
 					index = hotRecommendDao.getMaxPriority();
-					hotrecommend.setPriority(index == null ? 1L : index);
+					hotrecommend.setPriority(index == null ? 1L : index + 1);
 					hotRecommendDao.save(hotrecommend);
 					break;
 				case DictType.hotSort:// 热销排行
 					hotSort.setCreateTime(time);
 					hotSort.setHouseInfo(house);
 					index = hotSortDao.getMaxPriority();
-					hotSort.setPriority(index == null ? 1L : index);
+					hotSort.setPriority(index == null ? 1L : index + 1);
 					hotSortDao.save(hotSort);
 					break;
 				case DictType.newFav:// 最新优惠
 					newFav.setCreateTime(time);
 					newFav.setHouseInfo(house);
 					index = newFavDao.getMaxPriority();
-					newFav.setPriority(index == null ? 1L : index);
+					newFav.setPriority(index == null ? 1L : index + 1);
 					newFavDao.save(newFav);
+					break;
+				case DictType.newGuide:// 新盘导购
+					newGuide.setCreateTime(time);
+					newGuide.setHouseInfo(house);
+					index = newGuideDao.getMaxPriority();
+					newGuide.setPriority(index == null ? 1L : index + 1);
+					newGuideDao.save(newGuide);
+					break;
+				case DictType.houseRecommend:// 最新优惠
+					hr.setCreateTime(time);
+					hr.setHouseInfo(house);
+					index = newFavDao.getMaxPriority();
+					hr.setPriority(index == null ? 1L : index + 1);
+					recommendDao.save(hr);
 					break;
 				default:
 					break;
@@ -214,6 +242,10 @@ public class HouseService extends CommonService {
 				recommend += DictType.hotSort + ",";
 			} else if (newFavDao.findByHouseInfoId(id) != null) {
 				recommend += DictType.newFav + ",";
+			} else if (newGuideDao.findByHouseInfoId(id) != null) {
+				recommend += DictType.newGuide + ",";
+			} else if (recommendDao.findByHouseInfoId(id) != null) {
+				recommend += DictType.houseRecommend + ",";
 			}
 
 			if (!StringUtils.isBlank(recommend)) {
@@ -253,6 +285,12 @@ public class HouseService extends CommonService {
 				case DictType.newFav:// 最新优惠
 					newFavDao.deleteByHouse(id);
 					break;
+				case DictType.newGuide:// 楼盘导购
+					newGuideDao.deleteByHouse(id);
+					break;
+				case DictType.houseRecommend:// 最新优惠
+					recommendDao.deleteByHouse(id);
+					break;
 				default:
 					break;
 				}
@@ -267,7 +305,8 @@ public class HouseService extends CommonService {
 	/**
 	 * 创建分页请求.
 	 */
-	private PageRequest buildPageRequest(int pageNumber, int pagzSize, String sortType) {
+	private PageRequest buildPageRequest(int pageNumber, int pagzSize,
+			String sortType) {
 		Sort sort = null;
 		if ("auto".equals(sortType)) {
 			sort = new Sort(Direction.DESC, "id");
@@ -281,13 +320,15 @@ public class HouseService extends CommonService {
 	/**
 	 * 创建动态查询条件组合.
 	 */
-	private Specification<HouseInfo> buildSpecification(String name, Map<String, Object> searchParams) {
+	private Specification<HouseInfo> buildSpecification(String name,
+			Map<String, Object> searchParams) {
 		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
 		if (name != null) {
 			filters.put("name", new SearchFilter("name", Operator.EQ, name));
 		}
 
-		Specification<HouseInfo> spec = DynamicSpecifications.bySearchFilter(filters.values(), HouseInfo.class);
+		Specification<HouseInfo> spec = DynamicSpecifications.bySearchFilter(
+				filters.values(), HouseInfo.class);
 		return spec;
 	}
 
