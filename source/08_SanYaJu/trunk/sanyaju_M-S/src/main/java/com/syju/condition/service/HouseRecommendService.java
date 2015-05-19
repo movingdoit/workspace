@@ -23,6 +23,7 @@ import org.springside.modules.persistence.SearchFilter.Operator;
 
 import com.syju.commons.service.CommonService;
 import com.syju.condition.entity.HouseRecommend;
+import com.syju.condition.entity.NewGuide;
 import com.syju.condition.repository.jpa.HouseRecommendDao;
 
 /**
@@ -166,6 +167,50 @@ public class HouseRecommendService extends CommonService {
 
 		return houseRecommendDao.findAll(spec, pageRequest);
 	}
+	
+	
+	/**
+	 * 获取最大排序号
+	 * 
+	 * @return
+	 */
+	public Long getMaxPriority() {
+		Long index = houseRecommendDao.getMaxPriority();
+		if (index == null) {
+			return 1L;
+		}else{
+			index=index+1;
+		}
+		return index;
+	}
+
+	/**
+	 * 通过外键获取对象
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public HouseRecommend findByHouse(Long id) {
+		return houseRecommendDao.findByHouseInfoId(id);
+	}
+
+	/**
+	 * 组合查询
+	 * 
+	 * @param name
+	 * @param pageNumber
+	 * @param pagzSize
+	 * @param sortType
+	 * @return
+	 */
+	public Page<HouseRecommend> findByHouseRecommendAndHouse(String name, int pageNumber, int pagzSize, String sortType) {
+		if (name != null) {
+			name = "%" + name.trim() + "%";
+		}
+		PageRequest pageable = buildPageRequest(pageNumber, pagzSize, sortType);
+		return houseRecommendDao.findHouseRecommendAndHouse(name, pageable);
+	}
+	
 
 	/**
 	 * 创建分页请求.
