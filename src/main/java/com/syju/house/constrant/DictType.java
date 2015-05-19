@@ -11,6 +11,8 @@ public class DictType {
 	public final static int hotrecommend = 3;  //热点推荐
 	public final static int hotSort = 4;       //热销排行
 	public final static int newFav = 5;        //最新优惠
+	public final static int newGuide = 6;        //新盘导购
+	public final static int houseRecommend = 7; //楼盘推荐
 	
 	/* 楼盘类型 */
 	public static Map<Integer, String> getHouseType() {
@@ -67,6 +69,8 @@ public class DictType {
 		map.put(3, "热点推荐");
 		map.put(4, "热销排行");
 		map.put(5, "最新优惠");
+		map.put(6, "新盘导购");
+		map.put(7, "楼盘推荐");
 		return map;
 	}
 	
