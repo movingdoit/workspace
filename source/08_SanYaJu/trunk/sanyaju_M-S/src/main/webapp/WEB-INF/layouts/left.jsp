@@ -16,7 +16,7 @@
 <div id="sidebar">
     <ul>
     	<shiro:hasRole name="User">
-    		 <li class="submenu ${fn:contains(url, '/house/detail') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>房源管理</span> <span class="label"> > </span></a>
+    		<li class="submenu ${fn:contains(url, '/house') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>房源管理</span> <span class="label"> > </span></a>
  	            <ul>
 	                <li ${(fn:contains(url, '/house/detail/create')) ? 'class="active"' : ''}><a href="${ctx}/house/detail/create">楼盘详情</a></li>
 	                <li ${ fn:contains(url, '/house/photo/create') ? 'class="active"' : ''}><a href="${ctx}/house/photo/create">楼盘相册</a></li>
@@ -53,6 +53,8 @@
 	                <li ${(fn:contains(url, '/activity/group/search')) ? 'class="active"' : ''}><a href="${ctx}/activity/group/search">团购活动列表</a></li>
 	                <li ${(fn:contains(url, '/activity/group/create')) ? 'class="active"' : ''}><a href="${ctx}/activity/group/create">添加团购</a></li>
 	                <li ${(fn:contains(url, '/activity/groupRecord/search')) ? 'class="active"' : ''}><a href="${ctx}/activity/groupRecord/search">团购报名记录</a></li>
+	                <li ${(fn:contains(url, '/activity/groupRecommend/list')) ? 'class="active"' : ''}><a href="${ctx}/activity/groupRecommend/list">团购推荐列表</a></li>
+	           
 	            </ul>
 	        </li>
 	         <li class="submenu ${fn:contains(url, '/ad') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>广告管理</span> <span class="label"> > </span></a>
@@ -66,14 +68,14 @@
 	            </ul>
 	        </li>
 	        
-	        <li class="submenu ${fn:contains(url, '/activity/groupRecommend') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>团购推荐管理</span> <span class="label"> > </span></a>
+	       <%--  <li class="submenu ${fn:contains(url, '/activity/groupRecommend') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>团购推荐管理</span> <span class="label"> > </span></a>
  	            <ul>
 	                <li ${(fn:contains(url, '/activity/specialActivity/list')) ? 'class="active"' : ''}><a href="${ctx}/activity/specialActivity/list">专题活动列表</a></li>
 	                <li ${(fn:contains(url, '/activity/specialActivity/create')) ? 'class="active"' : ''}><a href="${ctx}/activity/specialActivity/create">新增专题</a></li>
 	                <li ${(fn:contains(url, '/activity/specialRecord/list')) ? 'class="active"' : ''}><a href="${ctx}/activity/specialRecord/list">专题报名记录</a></li>
 	                <li ${(fn:contains(url, '/activity/groupRecommend/list')) ? 'class="active"' : ''}><a href="${ctx}/activity/groupRecommend/list">团购推荐列表</a></li>
 	            </ul>
-	        </li>
+	        </li> --%>
 	        
 	         <li class="submenu ${fn:contains(url, '/ad') ? 'active open' : ''}"> <a href="#"><i class="icon icon-leaf"></i> <span>广告管理</span> <span class="label"> > </span></a>
  	            <ul>
