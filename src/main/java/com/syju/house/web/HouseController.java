@@ -25,12 +25,16 @@ import com.syju.commons.util.DateUtils;
 import com.syju.condition.entity.FeatureHouse;
 import com.syju.condition.entity.HotRecommend;
 import com.syju.condition.entity.HotSort;
+import com.syju.condition.entity.HouseRecommend;
 import com.syju.condition.entity.NewFav;
+import com.syju.condition.entity.NewGuide;
 import com.syju.condition.entity.SpecialHouse;
 import com.syju.condition.service.FeatureHouseService;
 import com.syju.condition.service.HotRecommendService;
 import com.syju.condition.service.HotSortService;
+import com.syju.condition.service.HouseRecommendService;
 import com.syju.condition.service.NewFavService;
+import com.syju.condition.service.NewGuideService;
 import com.syju.condition.service.SpecialHouseService;
 import com.syju.house.constrant.DictType;
 import com.syju.house.entity.BuildInfo;
@@ -70,15 +74,19 @@ public class HouseController extends BaseController {
 
 	/* 推荐service */
 	@Resource
-	private FeatureHouseService featureHouseService;
+	private FeatureHouseService featureHouseService;//特色楼盘
 	@Resource
-	private HotRecommendService hotRecommendService;
+	private HotRecommendService hotRecommendService;//热点推荐
 	@Resource
-	private HotSortService hotSortService;
+	private HotSortService hotSortService;//热销排行
 	@Resource
-	private NewFavService newFavService;
+	private NewFavService newFavService;  //最新优惠
 	@Resource
-	private SpecialHouseService specialHouseService;
+	private SpecialHouseService specialHouseService; //特价楼盘
+	@Resource
+	private NewGuideService newGuideService;        //新盘导购
+	@Resource
+	private HouseRecommendService recommendService; //楼盘推荐
 
 	// 创建框
 	@RequestMapping(value = "create", method = RequestMethod.GET)
@@ -331,6 +339,14 @@ public class HouseController extends BaseController {
 		case DictType.newFav:// 最新优惠
 			Page<NewFav> newFav = newFavService.findByNewFavAndHouse(name, pageNumber, pageSize, sortType);
 			model.addAttribute("housePage", newFav);
+			break;
+		case DictType.newGuide:// 新盘导购
+			Page<NewGuide> newGuide = newGuideService.findByNewGuideAndHouse(name, pageNumber, pageSize, sortType);
+			model.addAttribute("housePage", newGuide);
+			break;
+		case DictType.houseRecommend:// 楼盘推荐
+			Page<HouseRecommend> houseRecommend = recommendService.findByHouseRecommendAndHouse(name, pageNumber, pageSize, sortType);
+			model.addAttribute("housePage", houseRecommend);
 			break;
 		default:
 			Page<HouseInfo> houseInfo = houseService.findByName(pageNumber, pageSize, sortType, name);
