@@ -14,6 +14,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -43,8 +44,11 @@ public class SpecialActivity extends IdEntity {
 
 	// many to one
 	private HouseInfo houseInfo;// 楼盘信息-id(关系映射)
+	private SpecialModelOne specialModelOne;// 模板一-id(关系映射)
+	private SpecialModelTwo specialModelTwo;// 模板二-id(关系映射)
 
-	private List<SpecialRecord> specialRecord;// 楼盘信息-id(关系映射)
+	// one to many
+	private List<SpecialRecord> specialRecord;// 专题列表人员-id(关系映射)
 
 	// -----------------关系配置---------------
 	// JPA 基于site_id列的多对一关系定义
@@ -56,6 +60,24 @@ public class SpecialActivity extends IdEntity {
 
 	public void setHouseInfo(HouseInfo houseInfo) {
 		this.houseInfo = houseInfo;
+	}
+
+	@OneToOne(mappedBy = "specialActivity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	public SpecialModelOne getSpecialModelOne() {
+		return specialModelOne;
+	}
+
+	public void setSpecialModelOne(SpecialModelOne specialModelOne) {
+		this.specialModelOne = specialModelOne;
+	}
+
+	@OneToOne(mappedBy = "specialActivity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	public SpecialModelTwo getSpecialModelTwo() {
+		return specialModelTwo;
+	}
+
+	public void setSpecialModelTwo(SpecialModelTwo specialModelTwo) {
+		this.specialModelTwo = specialModelTwo;
 	}
 
 	@OneToMany(mappedBy = "specialActivity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
