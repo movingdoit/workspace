@@ -56,7 +56,6 @@ public class SpecialActivityService extends CommonService {
 	/**
 	 * 根据用户Id获取当前站点的幻灯片列表
 	 *
-	 * @param userId
 	 * @param searchParams
 	 * @param pageNumber
 	 * @param pageSize
@@ -65,6 +64,36 @@ public class SpecialActivityService extends CommonService {
 	 */
 	public Page<SpecialActivity> getSpecialActivity(Map<String, Object> searchParams, int pageNumber, int pageSize,
 			String sortType) {
+		Specification<SpecialActivity> spec = null;
+		PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, sortType);
+
+		return specialActivityDao.findAll(spec, pageRequest);
+	}
+
+	/**
+	 * 查询出模板一的所有专题列表
+	 *
+	 * @param pageNumber
+	 * @param pageSize
+	 * @param sortType
+	 * @return
+	 */
+	public Page<SpecialActivity> getSpecialActivityModelOne(int pageNumber, int pageSize, String sortType) {
+		Specification<SpecialActivity> spec = null;
+		PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, sortType);
+
+		return specialActivityDao.findAll(spec, pageRequest);
+	}
+
+	/**
+	 * 查询出模板二的所有专题列表
+	 *
+	 * @param pageNumber
+	 * @param pageSize
+	 * @param sortType
+	 * @return
+	 */
+	public Page<SpecialActivity> getSpecialActivityModelTwo(int pageNumber, int pageSize, String sortType) {
 		Specification<SpecialActivity> spec = null;
 		PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, sortType);
 

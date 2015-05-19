@@ -8,7 +8,7 @@ package com.syju.activity.special.entity;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -51,7 +51,7 @@ public class SpecialModelTwo extends IdEntity {
 
 	// -----------------关系配置---------------
 	// JPA 基于site_id列的多对一关系定义
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "special_id")
 	public SpecialActivity getSpecialActivity() {
 		return specialActivity;

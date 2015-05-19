@@ -1,6 +1,5 @@
 package com.syju.activity.special.web;
 
-import java.io.File;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -76,34 +75,33 @@ public class SpecialActivityController extends BaseController {
 		return "activity/special/specialActivityForm";
 	}
 
-	/***
-	 * 保存文件
-	 * 
-	 * @param file
-	 * @return
-	 */
-	private boolean saveFile(MultipartFile file, HttpServletRequest request) {
-		// 判断文件是否为空
-		if (!file.isEmpty()) {
-			try {
-				// 文件保存路径
-				String filePath = request.getSession().getServletContext().getRealPath("/") + "upload/"
-						+ file.getOriginalFilename();
-				// 转存文件
-				file.transferTo(new File(filePath));
-				return true;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return false;
-	}
+	// /***
+	// * 保存文件
+	// *
+	// * @param file
+	// * @return
+	// */
+	// private boolean saveFile(MultipartFile file, HttpServletRequest request) {
+	// // 判断文件是否为空
+	// if (!file.isEmpty()) {
+	// try {
+	// // 文件保存路径
+	// String filePath = request.getSession().getServletContext().getRealPath("/") + "upload/"
+	// + file.getOriginalFilename();
+	// // 转存文件
+	// file.transferTo(new File(filePath));
+	// return true;
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// return false;
+	// }
 
 	// 添加专题和模板一
 	@RequestMapping(value = "createOne", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, String> createOne(@Valid SpecialActivity specialActivity,
-			@Valid SpecialModelOne specialModelOne,
 			@RequestParam(value = "files", required = false) MultipartFile[] files,
 			@RequestParam(value = "attrList", required = false) String[] slidePath,
 			@RequestParam(value = "activityImageFile", required = false) MultipartFile activityImage,
@@ -126,13 +124,13 @@ public class SpecialActivityController extends BaseController {
 		String message = "创建失败，请重试！";
 		if (specialActivity != null) {
 			try {
-				// SpecialModelOne specialModelOne = new SpecialModelOne(); // new 一个新的模板一
+				SpecialModelOne specialModelOne = specialActivity.getSpecialModelOne();
 
 				// 判断file数组不能为空并且长度大于0 （轮播图图片和链接地址）
-				if (files != null && files.length > 0) {
+				if (slidePath != null && slidePath.length > 0) {
 					List<Slide> slides = new ArrayList<Slide>();
 					// 循环获取file数组中得文件
-					for (int i = 0; i < files.length; i++) {
+					for (int i = 0; i < slidePath.length; i++) {
 						Slide slide = new Slide();
 						MultipartFile file = files[i];
 						// 处理上传图片
@@ -141,7 +139,9 @@ public class SpecialActivityController extends BaseController {
 							if (StringUtils.isNotEmpty(fileName)) {
 								slide.setSpecialModelOne(specialModelOne);
 								slide.setSlideImage(fileName);
-								slide.setSlidePath(slidePath[i]);
+								if (slidePath[i] != null) {
+									slide.setSlidePath(slidePath[i]);
+								}
 								slides.add(slide);
 							}
 						}
@@ -211,6 +211,7 @@ public class SpecialActivityController extends BaseController {
 					if (StringUtils.isNotEmpty(fileName)) {
 						specialModelOne.setHouseImageFour(fileName);
 					}
+
 				}
 				// 处理导航三图片上传
 				if ((null != navThreeImage) && StringUtils.isNotEmpty(navThreeImage.getOriginalFilename())) {
@@ -240,7 +241,7 @@ public class SpecialActivityController extends BaseController {
 						specialModelOne.setHousesImageThree(fileName);
 					}
 				}
-				specialModelOneService.saveSpecialModelOne(specialModelOne);
+				specialModelOne.setSpecialActivity(specialActivity);
 
 				specialActivity.setBeginDate(new Timestamp(System.currentTimeMillis()));
 				specialActivity.setSpecialModelOne(specialModelOne);
@@ -263,7 +264,6 @@ public class SpecialActivityController extends BaseController {
 	@RequestMapping(value = "createTwo", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, String> createTwo(@Valid SpecialActivity specialActivity,
-			@Valid SpecialModelTwo specialModelTwo,
 			@RequestParam(value = "activityImageFile", required = false) MultipartFile activityImage,
 			@RequestParam(value = "topImageFile", required = false) MultipartFile topImage,
 			@RequestParam(value = "housesPicFile", required = false) MultipartFile housesPic,
@@ -275,6 +275,7 @@ public class SpecialActivityController extends BaseController {
 		String code = "1111";
 		String message = "创建失败，请重试！";
 		if (specialActivity != null) {
+			SpecialModelTwo specialModelTwo = specialActivity.getSpecialModelTwo();
 			try {
 				// 处理活动封面图片上传
 				if ((null != activityImage) && StringUtils.isNotEmpty(activityImage.getOriginalFilename())) {
@@ -311,8 +312,7 @@ public class SpecialActivityController extends BaseController {
 						specialModelTwo.setHouseTypeImageTwo(fileName);
 					}
 				}
-
-				specialModelTwoService.saveSpecialModelTwo(specialModelTwo);
+				specialModelTwo.setSpecialActivity(specialActivity);
 
 				specialActivity.setBeginDate(new Timestamp(System.currentTimeMillis()));
 				specialActivity.setSpecialModelTwo(specialModelTwo);
@@ -341,31 +341,253 @@ public class SpecialActivityController extends BaseController {
 		return "activity/special/specialActivityForm";
 	}
 
-	// 修改信息框
-	@RequestMapping(value = "update", method = RequestMethod.POST)
+	// 修改专题和模板一
+	@RequestMapping(value = "updateOne", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> update(@Valid @ModelAttribute("specialActivity") SpecialActivity specialActivity,
-			@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request) {
+	public Map<String, String> updateOne(@Valid @ModelAttribute("specialActivity") SpecialActivity specialActivity,
+			@RequestParam(value = "files", required = false) MultipartFile[] files,
+			@RequestParam(value = "attrList", required = false) String[] slidePath,
+			@RequestParam(value = "activityImageFile", required = false) MultipartFile activityImage,
+			@RequestParam(value = "topImageFile", required = false) MultipartFile topImage,
+			@RequestParam(value = "navOneImageFile", required = false) MultipartFile navOneImage,
+			@RequestParam(value = "navTwoImageFile", required = false) MultipartFile navTwoImage,
+			@RequestParam(value = "houseTypeImageFile", required = false) MultipartFile houseTypeImage,
+			@RequestParam(value = "houseImageOneFile", required = false) MultipartFile houseImageOne,
+			@RequestParam(value = "houseImageTwoFile", required = false) MultipartFile houseImageTwo,
+			@RequestParam(value = "houseImageThreeFile", required = false) MultipartFile houseImageThree,
+			@RequestParam(value = "houseImageFourFile", required = false) MultipartFile houseImageFour,
+			@RequestParam(value = "navThreeImageFile", required = false) MultipartFile navThreeImage,
+			@RequestParam(value = "housesImageOneFile", required = false) MultipartFile housesImageOne,
+			@RequestParam(value = "housesImageTwoFile", required = false) MultipartFile housesImageTwo,
+			@RequestParam(value = "housesImageThreeFile", required = false) MultipartFile housesImageThree,
+			HttpServletRequest request) {
 		Map<String, String> resultMap = new HashMap<String, String>();
 		String code = "1111";
 		String message = "修改失败，请重试！";
 		if (specialActivity != null) {
 			try {
-				// 处理上传图片
-				if ((null != file) && StringUtils.isNotEmpty(file.getOriginalFilename())) {
-					String fileName = uploadFile(file, request, UPLOAD_ROOT_PATH);
+				if ((null != specialActivity.getSpecialModelOne())) {
+					SpecialModelOne specialModelOne = specialActivity.getSpecialModelOne();
+					List<Slide> slideList = null;
+
+					slideList = (null != specialActivity.getSpecialModelOne().getSlides()) ? specialActivity
+							.getSpecialModelOne().getSlides() : new ArrayList<Slide>();
+					if (0 == slidePath.length) {
+						slideList.clear();
+					}
+					int oldSize = specialActivity.getSpecialModelOne().getSlides().size();// 数据库的轮播图大小
+					int size = (null != slideList) ? slideList.size() : 0; // 页面上的轮播图大小
+					if (size > slidePath.length) {
+						// 删除本次编辑去掉的数据
+						for (int i = slidePath.length; i < size; i++) {
+							slideList.remove(i - 1);
+						}
+					}
+
+					if (slidePath.length > 0) {
+						for (int i = 0; i < slidePath.length; i++) {
+							Slide slide = null;
+							MultipartFile file = files[i];
+
+							if (i < size) {
+								// 更新历史数据
+								slide = slideList.get(i);
+							} else {
+								// 添加新数据
+								slide = new Slide();
+							}
+							// 处理上传图片
+							if ((null != file) && StringUtils.isNotEmpty(file.getOriginalFilename())) {
+								String fileName = uploadFile(file, request, UPLOAD_ROOT_PATH);
+								if (StringUtils.isNotEmpty(fileName)) {
+									slide.setSlideImage(fileName);
+								}
+							}
+
+							if (slidePath[i] != null) {
+								slide.setSlidePath(slidePath[i]);
+							}
+							slide.setSpecialModelOne(specialModelOne);
+
+							if (i < size) {
+								// 更新历史数据
+								slideList.set(i, slide);
+							} else {
+								// 添加新数据
+								slideList.add(slide);
+							}
+						}
+					}
+
+					// 处理活动封面图片上传
+					if ((null != activityImage) && StringUtils.isNotEmpty(activityImage.getOriginalFilename())) {
+						String fileName = uploadFile(activityImage, request, UPLOAD_ROOT_PATH);
+						if (StringUtils.isNotEmpty(fileName)) {
+							specialActivity.setActivityImage(fileName);
+						}
+					}
+					// 处理顶部大图图片上传
+					if ((null != topImage) && StringUtils.isNotEmpty(topImage.getOriginalFilename())) {
+						String fileName = uploadFile(topImage, request, UPLOAD_ROOT_PATH);
+						if (StringUtils.isNotEmpty(fileName)) {
+							specialModelOne.setTopImage(fileName);
+						}
+					}
+					// 处理导航一图片上传
+					if ((null != navOneImage) && StringUtils.isNotEmpty(navOneImage.getOriginalFilename())) {
+						String fileName = uploadFile(navOneImage, request, UPLOAD_ROOT_PATH);
+						if (StringUtils.isNotEmpty(fileName)) {
+							specialModelOne.setNavOneImage(fileName);
+						}
+					}
+					// 处理导航二图片上传
+					if ((null != navTwoImage) && StringUtils.isNotEmpty(navTwoImage.getOriginalFilename())) {
+						String fileName = uploadFile(navTwoImage, request, UPLOAD_ROOT_PATH);
+						if (StringUtils.isNotEmpty(fileName)) {
+							specialModelOne.setNavTwoImage(fileName);
+						}
+					}
+					// 处理户型图片上传
+					if ((null != houseTypeImage) && StringUtils.isNotEmpty(houseTypeImage.getOriginalFilename())) {
+						String fileName = uploadFile(houseTypeImage, request, UPLOAD_ROOT_PATH);
+						if (StringUtils.isNotEmpty(fileName)) {
+							specialModelOne.setHouseTypeImage(fileName);
+						}
+					}
+					// 处理户型一图片上传
+					if ((null != houseImageOne) && StringUtils.isNotEmpty(houseImageOne.getOriginalFilename())) {
+						String fileName = uploadFile(houseImageOne, request, UPLOAD_ROOT_PATH);
+						if (StringUtils.isNotEmpty(fileName)) {
+							specialModelOne.setHouseImageOne(fileName);
+						}
+					}
+					// 处理户型二图片上传
+					if ((null != houseImageTwo) && StringUtils.isNotEmpty(houseImageTwo.getOriginalFilename())) {
+						String fileName = uploadFile(houseImageTwo, request, UPLOAD_ROOT_PATH);
+						if (StringUtils.isNotEmpty(fileName)) {
+							specialModelOne.setHouseImageTwo(fileName);
+						}
+					}
+					// 处理户型三图片上传
+					if ((null != houseImageThree) && StringUtils.isNotEmpty(houseImageThree.getOriginalFilename())) {
+						String fileName = uploadFile(houseImageThree, request, UPLOAD_ROOT_PATH);
+						if (StringUtils.isNotEmpty(fileName)) {
+							specialModelOne.setHouseImageThree(fileName);
+						}
+					}
+					// 处理户型四图片上传
+					if ((null != houseImageFour) && StringUtils.isNotEmpty(houseImageFour.getOriginalFilename())) {
+						String fileName = uploadFile(houseImageFour, request, UPLOAD_ROOT_PATH);
+						if (StringUtils.isNotEmpty(fileName)) {
+							specialModelOne.setHouseImageFour(fileName);
+						}
+					}
+					// 处理导航三图片上传
+					if ((null != navThreeImage) && StringUtils.isNotEmpty(navThreeImage.getOriginalFilename())) {
+						String fileName = uploadFile(navThreeImage, request, UPLOAD_ROOT_PATH);
+						if (StringUtils.isNotEmpty(fileName)) {
+							specialModelOne.setNavThreeImage(fileName);
+						}
+					}
+					// 处理楼盘一图片上传
+					if ((null != housesImageOne) && StringUtils.isNotEmpty(housesImageOne.getOriginalFilename())) {
+						String fileName = uploadFile(housesImageOne, request, UPLOAD_ROOT_PATH);
+						if (StringUtils.isNotEmpty(fileName)) {
+							specialModelOne.setHousesImageOne(fileName);
+						}
+					}
+					// 处理楼盘二图片上传
+					if ((null != housesImageTwo) && StringUtils.isNotEmpty(housesImageTwo.getOriginalFilename())) {
+						String fileName = uploadFile(housesImageTwo, request, UPLOAD_ROOT_PATH);
+						if (StringUtils.isNotEmpty(fileName)) {
+							specialModelOne.setHousesImageTwo(fileName);
+						}
+					}
+					// 处理楼盘三图片上传
+					if ((null != housesImageThree) && StringUtils.isNotEmpty(housesImageThree.getOriginalFilename())) {
+						String fileName = uploadFile(housesImageThree, request, UPLOAD_ROOT_PATH);
+						if (StringUtils.isNotEmpty(fileName)) {
+							specialModelOne.setHousesImageThree(fileName);
+						}
+					}
+
+					specialModelOne.setSlides(slideList);
+					specialActivity.setSpecialModelOne(specialModelOne);
+					specialActivityService.saveSpecialActivity(specialActivity);
+					code = "0000";
+					message = "修改成功";
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				message = "可能模板为空，专题要配模板！";
+			}
+		}
+		resultMap.put("code", code);
+		resultMap.put("msg", message);
+
+		return resultMap;
+	}
+
+	// 修改专题和模板二
+	@RequestMapping(value = "updateTwo", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> updateTwo(@Valid @ModelAttribute("specialActivity") SpecialActivity specialActivity,
+			@RequestParam(value = "activityImageFile", required = false) MultipartFile activityImage,
+			@RequestParam(value = "topImageFile", required = false) MultipartFile topImage,
+			@RequestParam(value = "housesPicFile", required = false) MultipartFile housesPic,
+			@RequestParam(value = "houseTypeImageOneFile", required = false) MultipartFile houseTypeImageOne,
+			@RequestParam(value = "houseTypeImageTwoFile", required = false) MultipartFile houseTypeImageTwo,
+			HttpServletRequest request) {
+		Map<String, String> resultMap = new HashMap<String, String>();
+		String code = "1111";
+		String message = "修改失败，请重试！";
+		if (specialActivity != null && specialActivity.getSpecialModelTwo() != null) {
+			SpecialModelTwo specialModelTwo = specialActivity.getSpecialModelTwo();
+			try {
+				// 处理活动封面图片上传
+				if ((null != activityImage) && StringUtils.isNotEmpty(activityImage.getOriginalFilename())) {
+					String fileName = uploadFile(activityImage, request, UPLOAD_ROOT_PATH);
 					if (StringUtils.isNotEmpty(fileName)) {
 						specialActivity.setActivityImage(fileName);
 					}
 				}
-				specialActivity.setBeginDate(new Timestamp(System.currentTimeMillis()));
+				// 处理顶部大图图片上传
+				if ((null != topImage) && StringUtils.isNotEmpty(topImage.getOriginalFilename())) {
+					String fileName = uploadFile(topImage, request, UPLOAD_ROOT_PATH);
+					if (StringUtils.isNotEmpty(fileName)) {
+						specialModelTwo.setTopImage(fileName);
+					}
+				}
+				// 处理楼盘封面图片上传
+				if ((null != housesPic) && StringUtils.isNotEmpty(housesPic.getOriginalFilename())) {
+					String fileName = uploadFile(housesPic, request, UPLOAD_ROOT_PATH);
+					if (StringUtils.isNotEmpty(fileName)) {
+						specialModelTwo.setHousesPic(fileName);
+					}
+				}
+				// 处理户型图一 图片上传
+				if ((null != houseTypeImageOne) && StringUtils.isNotEmpty(houseTypeImageOne.getOriginalFilename())) {
+					String fileName = uploadFile(houseTypeImageOne, request, UPLOAD_ROOT_PATH);
+					if (StringUtils.isNotEmpty(fileName)) {
+						specialModelTwo.setHouseTypeImageOne(fileName);
+					}
+				}
+				// 处理户型图二图片上传
+				if ((null != houseTypeImageTwo) && StringUtils.isNotEmpty(houseTypeImageTwo.getOriginalFilename())) {
+					String fileName = uploadFile(houseTypeImageTwo, request, UPLOAD_ROOT_PATH);
+					if (StringUtils.isNotEmpty(fileName)) {
+						specialModelTwo.setHouseTypeImageTwo(fileName);
+					}
+				}
+				specialActivity.setSpecialModelTwo(specialModelTwo);
 				specialActivityService.saveSpecialActivity(specialActivity);
 				code = "0000";
 				message = "修改成功";
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				message = "可能填写错误了，请注意提示！";
+				message = "可能模板为空，专题要配模板！";
 			}
 		}
 		resultMap.put("code", code);
